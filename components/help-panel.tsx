@@ -18,7 +18,7 @@ const HINTS: Record<PinType, string> = {
 	event: "Evento oficial de Crafter Station.",
 	hack0: "Evento LATAM del calendario Hack0 Community, corrido por crafters.",
 	drop: "Anuncio grande. Máximo 1-2 activos.",
-	crafter: "Un miembro del core team. La posición es el único hint.",
+	crafter: "Un miembro del core team de Crafter Station.",
 };
 
 export function HelpPanel({ onClose }: { onClose: () => void }) {

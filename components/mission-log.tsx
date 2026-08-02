@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import mainData from "@/data/main.json";
+import { sound } from "@/lib/sound";
 
 type Villain = {
 	id: string;
@@ -15,6 +16,11 @@ export function MissionLog({ onClose }: { onClose: () => void }) {
 	const villains = cfg.villains as Villain[];
 	const [idx, setIdx] = useState(0);
 	const v = villains[idx];
+
+	useEffect(() => {
+		const t = setTimeout(() => sound.sayVillainById(villains[idx].id), 350);
+		return () => clearTimeout(t);
+	}, [idx, villains]);
 
 	return (
 		<div

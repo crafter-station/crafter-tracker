@@ -21,6 +21,7 @@ let enabled = false;
 let clickCount = 0;
 const tracks = new Map<string, HTMLAudioElement>();
 const played = new Set<string>();
+let currentVoice: HTMLAudioElement | null = null;
 
 function track(src: string): HTMLAudioElement {
 	let a = tracks.get(src);
@@ -76,7 +77,21 @@ export const sound = {
 		if (!name) return;
 		played.add(name);
 		const a = track(`/sounds/voice/${name}.mp3`);
+		currentVoice?.pause();
+		currentVoice = a;
 		a.volume = 0.9;
+		a.currentTime = 0;
+		a.play().catch(() => {});
+	},
+
+	/** Per-villain line for the Bitácora: always replays, cuts the previous voice. */
+	sayVillainById(id: string) {
+		if (!enabled) return;
+		const a = track(`/sounds/voice/villain-${id}.mp3`);
+		currentVoice?.pause();
+		currentVoice = a;
+		a.volume = 0.9;
+		a.currentTime = 0;
 		a.play().catch(() => {});
 	},
 };

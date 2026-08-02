@@ -44,7 +44,6 @@ export default function Home() {
 
 	const openPanel = (p: Panel) => {
 		sound.play("panel-open", 0.45);
-		if (p === "mission") sound.say("villain");
 		setPanel(p);
 	};
 
