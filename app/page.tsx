@@ -6,7 +6,6 @@ import { ActivityLog } from "@/components/activity-log";
 import { BootScreen } from "@/components/boot-screen";
 import { Crafternaut } from "@/components/crafternaut";
 import { HelpPanel } from "@/components/help-panel";
-import { LogoCS } from "@/components/logo-cs";
 import { MissionLog } from "@/components/mission-log";
 import { NavDrawer } from "@/components/nav-drawer";
 import { Ticker } from "@/components/ticker";
@@ -201,37 +200,18 @@ export default function Home() {
 				</div>
 			</div>
 
-			{/* title plaque straddling the console's top edge */}
-			<h1
-				className="bit-border absolute left-1/2 top-1 z-30 -translate-x-1/2 p-[5px]"
-				style={
-					{
-						"--bb-step": "3px",
-						"--bb-frame": "#0a0a0a",
-						"--bb-fill": "#b98a00",
-					} as React.CSSProperties
-				}
-			>
-				<span
-					className="bit-border flex items-center gap-3 px-4 py-1.5 sm:gap-4 sm:px-6 sm:py-2"
-					style={
-						{
-							"--bb-step": "2px",
-							"--bb-frame": "#f5b700",
-							"--bb-fill": "#0a0a0a",
-						} as React.CSSProperties
-					}
-				>
-					<span className="title-plaque-text font-pixel text-lg tracking-[0.18em] text-[#f5b700] sm:text-2xl">
-						CRAFTER
-					</span>
-					<span className="title-badge relative z-10 -my-3 flex h-11 w-11 items-center justify-center rounded-full bg-[#0a0a0a] text-[#f5b700] sm:h-12 sm:w-12">
-						<LogoCS size={28} />
-					</span>
-					<span className="title-plaque-text font-pixel text-lg tracking-[0.18em] text-[#f5b700] sm:text-2xl">
-						TRACKER
-					</span>
-				</span>
+			{/* title plaque straddling the console's top edge (generated asset) */}
+			<h1 className="absolute left-1/2 top-1 z-30 -translate-x-1/2">
+				<span className="sr-only">Crafter Tracker</span>
+				{/* biome-ignore lint/performance/noImgElement: local pixel plaque, swap letter a-d to pick a candidate */}
+				<img
+					src="/sprites/title-plaque-a.png"
+					alt=""
+					width={200}
+					height={36}
+					className="pixelated h-12 w-auto sm:h-14"
+					draggable={false}
+				/>
 			</h1>
 
 			{/* hanging CTAs (outside the clipped band) */}
