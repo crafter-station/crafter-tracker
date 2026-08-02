@@ -33,6 +33,18 @@ export function PinCard({ pin, onClose }: { pin: Pin; onClose: () => void }) {
 					X
 				</button>
 			</div>
+			{(pin.avatar ?? pin.cardThumbImg) && (
+				<div className="mt-2 flex justify-center">
+					{/* biome-ignore lint/performance/noImgElement: small local thumb */}
+					<img
+						src={pin.avatar ?? pin.cardThumbImg}
+						alt=""
+						width={72}
+						height={72}
+						className="pixelated border-2 border-black object-cover"
+					/>
+				</div>
+			)}
 			<h3 className="mt-2 font-pixel-body text-[10px] leading-relaxed text-black">
 				{pin.title}
 			</h3>

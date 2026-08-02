@@ -1,10 +1,15 @@
 {
 	"init": {
 		"general": {
-			"header": { "title": "CRAFTER TRACKER" },
+			"header": {
+				"title": "CRAFTER TRACKER"
+			},
 			"map2D": {
 				"startView": "worldmap",
-				"center": { "lat": -5.0, "lng": -70.0 },
+				"center": {
+					"lat": -5.0,
+					"lng": -70.0
+				},
 				"zoom": 3
 			}
 		},
@@ -181,79 +186,86 @@
 		{
 			"id": "crafter-railly",
 			"pinType": "crafter",
-			"lat": -34.578,
-			"lng": -58.42,
+			"lat": -34.599,
+			"lng": -58.438,
 			"title": "Railly Hugo",
-			"displayLocation": "Palermo, Buenos Aires",
+			"displayLocation": "Villa Crespo, Buenos Aires",
 			"description": "Founder · Design Engineer. Único crafter en territorio gaucho.",
 			"url": "https://crafter.run/en/team/railly",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/railly.png"
 		},
 		{
 			"id": "crafter-cuevaio",
 			"pinType": "crafter",
-			"lat": -12.096,
-			"lng": -77.043,
+			"lat": -11.875,
+			"lng": -77.126,
 			"title": "Anthony Cueva",
-			"displayLocation": "Lima, Perú",
+			"displayLocation": "Ventanilla, Callao",
 			"description": "Cofounder · Product Engineer.",
 			"url": "https://crafter.run/en/team/cuevaio",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/cueva.png"
 		},
 		{
 			"id": "crafter-shiara",
 			"pinType": "crafter",
-			"lat": -12.071,
-			"lng": -77.0,
+			"lat": -12.074,
+			"lng": -77.063,
 			"title": "Shiara Arauzo",
-			"displayLocation": "Lima, Perú",
+			"displayLocation": "Pueblo Libre, Lima",
 			"description": "Design Engineer.",
 			"url": "https://crafter.run/en/team/shiara",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/shiara.png"
 		},
 		{
 			"id": "crafter-ignacio",
 			"pinType": "crafter",
-			"lat": -12.021,
-			"lng": -77.0,
+			"lat": -12.365,
+			"lng": -76.795,
 			"title": "Ignacio Rueda",
-			"displayLocation": "Lima, Perú",
+			"displayLocation": "Punta Negra, Lima",
 			"description": "Backend Engineer.",
 			"url": "https://crafter.run/en/team/ignacio",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/ignacio.png"
 		},
 		{
 			"id": "crafter-liz",
 			"pinType": "crafter",
-			"lat": -11.996,
-			"lng": -77.043,
+			"lat": -12.057,
+			"lng": -77.05,
 			"title": "Liz Riveros",
-			"displayLocation": "Lima, Perú",
+			"displayLocation": "Breña, Lima",
 			"description": "Project Manager.",
 			"url": "https://crafter.run/en/team/liz",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/liz.png"
 		},
 		{
 			"id": "crafter-tarmeno",
 			"pinType": "crafter",
-			"lat": -12.021,
-			"lng": -77.086,
+			"lat": -12.156,
+			"lng": -76.945,
 			"title": "Carlos Tarmeno",
-			"displayLocation": "Lima, Perú",
+			"displayLocation": "Villa María del Triunfo, Lima",
 			"description": "Frontend Engineer.",
 			"url": "https://crafter.run/en/team/tarmeno",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/tarmeno.png"
 		},
 		{
 			"id": "crafter-edward",
 			"pinType": "crafter",
-			"lat": -12.071,
-			"lng": -77.086,
+			"lat": -12.178,
+			"lng": -77.017,
 			"title": "Edward Ramos",
-			"displayLocation": "Lima, Perú",
+			"displayLocation": "Chorrillos, Lima",
 			"description": "Frontend Engineer.",
 			"url": "https://crafter.run/en/team/edward",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/edward.png"
 		},
 		{
 			"id": "crafter-emmy",
@@ -264,7 +276,8 @@
 			"displayLocation": "Bogotá, Colombia",
 			"description": "Growth & Marketing.",
 			"url": "https://crafter.run/en/team/emmy",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/emmy.png"
 		},
 		{
 			"id": "crafter-cris",
@@ -275,7 +288,8 @@
 			"displayLocation": "Bogotá, Colombia",
 			"description": "Data & Software Engineer.",
 			"url": "https://crafter.run/en/team/cris",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/cris.png"
 		},
 		{
 			"id": "crafter-nicolas",
@@ -286,7 +300,8 @@
 			"displayLocation": "Bogotá, Colombia",
 			"description": "AI Engineer.",
 			"url": "https://crafter.run/en/team/nicolas",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/nicolas.png"
 		},
 		{
 			"id": "crafter-juan",
@@ -297,18 +312,20 @@
 			"displayLocation": "Bogotá, Colombia",
 			"description": "Software Engineer.",
 			"url": "https://crafter.run/en/team/juan",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/juan.png"
 		},
 		{
 			"id": "crafter-nacho",
 			"pinType": "crafter",
-			"lat": -16.409,
-			"lng": -71.499,
+			"lat": -16.399,
+			"lng": -71.535,
 			"title": "Ignacio Velasquez",
 			"displayLocation": "Arequipa, Perú",
 			"description": "Growth & Automation.",
 			"url": "https://crafter.run/en/team/nacho",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/nacho.png"
 		},
 		{
 			"id": "crafter-gabriel",
@@ -319,7 +336,8 @@
 			"displayLocation": "Vila Velha, Brasil",
 			"description": "AI Engineer · Full-Stack.",
 			"url": "https://crafter.run/en/team/gabriel",
-			"createdAt": "2026-08-02T00:00:00.000Z"
+			"createdAt": "2026-08-02T00:00:00.000Z",
+			"avatar": "/team/gabriel.png"
 		}
 	]
 }

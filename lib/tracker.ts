@@ -16,6 +16,7 @@ export type Pin = {
 	xHandle?: string;
 	highlighted?: boolean;
 	cardThumbImg?: string;
+	avatar?: string;
 	createdAt: string;
 };
 

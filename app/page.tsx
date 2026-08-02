@@ -19,7 +19,7 @@ export default function Home() {
 
 			<header className="flex items-center justify-center">
 				<h1
-					className="bit-border px-6 py-2 font-pixel text-2xl tracking-[0.2em] text-[#f5b700] sm:text-3xl"
+					className="bit-border flex items-center gap-3 px-6 py-2 font-pixel text-2xl tracking-[0.2em] text-[#f5b700] sm:text-3xl"
 					style={
 						{
 							"--bb-step": "3px",
@@ -28,7 +28,16 @@ export default function Home() {
 						} as React.CSSProperties
 					}
 				>
-					CRAFTER&nbsp;◈&nbsp;TRACKER
+					CRAFTER
+					{/* biome-ignore lint/performance/noImgElement: tiny local logo */}
+					<img
+						src="/logo-cs.png"
+						alt="Crafter Station"
+						width={36}
+						height={36}
+						className="pixelated inline-block"
+					/>
+					TRACKER
 				</h1>
 			</header>
 
