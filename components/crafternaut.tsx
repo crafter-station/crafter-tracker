@@ -23,7 +23,7 @@ export function Crafternaut() {
 
 	return (
 		<div
-			className="pointer-events-auto absolute bottom-[30px] left-5 z-30 hidden sm:block"
+			className="pointer-events-auto absolute bottom-[52px] left-7 z-30 hidden sm:block"
 			onMouseEnter={() => setHovered(true)}
 			onMouseLeave={() => setHovered(false)}
 		>

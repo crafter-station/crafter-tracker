@@ -1,7 +1,7 @@
 "use client";
 
 import mainData from "@/data/main.json";
-import { PIN_COLORS, PIN_GLYPHS, type PinType } from "@/lib/tracker";
+import type { PinType } from "@/lib/tracker";
 
 const ORDER: PinType[] = [
 	"shipped",
@@ -53,17 +53,15 @@ export function HelpPanel({ onClose }: { onClose: () => void }) {
 						key={t}
 						className="flex items-start gap-3 border-b border-dashed border-[#f5b700]/20 py-3"
 					>
-						<span
-							className="bit-border flex h-7 w-7 shrink-0 items-center justify-center font-pixel-body text-[10px] text-black"
-							style={
-								{
-									"--bb-step": "2px",
-									"--bb-frame": "#0a0a0a",
-									"--bb-fill": PIN_COLORS[t],
-								} as React.CSSProperties
-							}
-						>
-							{PIN_GLYPHS[t]}
+						<span className="flex h-8 w-8 shrink-0 items-center justify-center">
+							{/* biome-ignore lint/performance/noImgElement: local pixel sprite */}
+							<img
+								src={`/sprites/pin-${t}.png`}
+								alt=""
+								width={30}
+								height={30}
+								className="pixelated"
+							/>
 						</span>
 						<span>
 							<span className="block font-pixel-body text-[9px] text-[#f5b700]">

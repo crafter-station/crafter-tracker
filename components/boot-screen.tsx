@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { sound } from "@/lib/sound";
 import { getBootLines } from "@/lib/tracker";
 
 const LINE_INTERVAL_MS = 140;
@@ -57,14 +58,20 @@ export function BootScreen({ onDone }: { onDone: () => void }) {
 		return () => clearInterval(fake);
 	}, []);
 
+	const start = (withSound: boolean) => {
+		if (!ready) return;
+		if (withSound) {
+			sound.enable();
+			sound.play("jingle", 0.5);
+			setTimeout(() => sound.say("welcome"), 1400);
+		}
+		onDone();
+	};
+
 	return (
-		<button
-			type="button"
-			onClick={() => ready && onDone()}
-			className={`fixed inset-0 z-50 flex w-full flex-col items-center justify-center bg-[#0a0a0a] text-left ${
-				ready ? "cursor-pointer" : "cursor-wait"
-			}`}
-			aria-label={ready ? "Tocar para iniciar" : "Cargando"}
+		<div
+			className="fixed inset-0 z-50 flex w-full flex-col items-center justify-center bg-[#0a0a0a] text-left"
+			aria-label={ready ? "Selecciona una opción de sonido" : "Cargando"}
 		>
 			<div className="w-full max-w-xl px-6">
 				<div className="min-h-64">
@@ -94,14 +101,46 @@ export function BootScreen({ onDone }: { onDone: () => void }) {
 					/>
 				</div>
 
-				<p className="mt-6 text-center font-pixel-body text-[10px] text-[#f5e9c8]">
+				<div className="mt-6 text-center font-pixel-body text-[10px] text-[#f5e9c8]">
 					{ready ? (
-						<span className="blink">TOCA PARA INICIAR</span>
+						<div className="flex flex-col items-center gap-4">
+							<span className="blink">SELECCIONA UNA OPCIÓN DE SONIDO</span>
+							<div className="flex gap-4">
+								<button
+									type="button"
+									onClick={() => start(true)}
+									className="bit-border cursor-pointer px-4 py-2 font-pixel-body text-[9px] text-[#f5b700] hover:opacity-80"
+									style={
+										{
+											"--bb-step": "2px",
+											"--bb-frame": "#f5b700",
+											"--bb-fill": "#0a0a0a",
+										} as React.CSSProperties
+									}
+								>
+									SONIDO ACTIVADO
+								</button>
+								<button
+									type="button"
+									onClick={() => start(false)}
+									className="bit-border cursor-pointer px-4 py-2 font-pixel-body text-[9px] text-[#f5e9c8]/70 hover:opacity-80"
+									style={
+										{
+											"--bb-step": "2px",
+											"--bb-frame": "#f5e9c8",
+											"--bb-fill": "#0a0a0a",
+										} as React.CSSProperties
+									}
+								>
+									SIN SONIDO
+								</button>
+							</div>
+						</div>
 					) : (
 						`CARGANDO ${Math.round(progress * 100)}%`
 					)}
-				</p>
+				</div>
 			</div>
-		</button>
+		</div>
 	);
 }

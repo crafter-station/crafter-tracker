@@ -10,6 +10,7 @@ import {
 	type MapRef,
 	MarkerContent,
 } from "@/components/ui/map";
+import { sound } from "@/lib/sound";
 import { getPins, type Pin, type PinType } from "@/lib/tracker";
 
 const PINS = getPins();
@@ -47,6 +48,16 @@ export function TrackerMap({
 			essential: true,
 		});
 		setSelected(pin);
+		sound.play("pin-click", 0.5);
+		const cat =
+			pin.pinType === "shipped"
+				? "shipped"
+				: pin.pinType === "cooking"
+					? "cooking"
+					: pin.pinType === "event" || pin.pinType === "hack0"
+						? "event"
+						: "general";
+		sound.say(cat);
 	}, []);
 
 	useEffect(() => {

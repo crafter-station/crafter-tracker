@@ -10,6 +10,7 @@ import { MissionLog } from "@/components/mission-log";
 import { NavDrawer } from "@/components/nav-drawer";
 import { Ticker } from "@/components/ticker";
 import mainData from "@/data/main.json";
+import { sound } from "@/lib/sound";
 import { PIN_COLORS, PIN_GLYPHS, type Pin, type PinType } from "@/lib/tracker";
 
 const TrackerMap = dynamic(
@@ -35,6 +36,13 @@ export default function Home() {
 	);
 	const [hiddenTypes, setHiddenTypes] = useState<PinType[]>([]);
 	const [lumaPins, setLumaPins] = useState<Pin[]>([]);
+	const [muted, setMuted] = useState(false);
+
+	const openPanel = (p: Panel) => {
+		sound.play("panel-open", 0.45);
+		if (p === "mission") sound.say("villain");
+		setPanel(p);
+	};
 
 	useEffect(() => {
 		fetch("/api/luma")
@@ -53,8 +61,8 @@ export default function Home() {
 		);
 
 	const navItems = [
-		{ label: "REGISTRO DE ACTIVIDAD", action: () => setPanel("activity") },
-		{ label: "BITÁCORA DE MISIÓN", action: () => setPanel("mission") },
+		{ label: "REGISTRO DE ACTIVIDAD", action: () => openPanel("activity") },
+		{ label: "BITÁCORA DE MISIÓN", action: () => openPanel("mission") },
 		{
 			label: "REPORTAR SHIP",
 			action: () => window.open(reportUrl, "_blank", "noopener,noreferrer"),
@@ -68,7 +76,7 @@ export default function Home() {
 					"noopener,noreferrer",
 				),
 		},
-		{ label: "AYUDA", action: () => setPanel("help") },
+		{ label: "AYUDA", action: () => openPanel("help") },
 	];
 
 	return (
@@ -91,7 +99,7 @@ export default function Home() {
 
 				{/* screen (map) */}
 				<div
-					className="bit-border absolute inset-x-4 top-6 bottom-12 sm:inset-x-6 sm:top-7 sm:bottom-14"
+					className="bit-border absolute inset-x-4 top-6 bottom-14 sm:inset-x-6 sm:top-7 sm:bottom-[72px]"
 					style={
 						{
 							"--bb-step": "3px",
@@ -194,9 +202,27 @@ export default function Home() {
 				{/* mascot standing on the bottom band, left of the centered ticker */}
 				<Crafternaut />
 
-				{/* centered ticker on the bottom band */}
-				<div className="absolute bottom-2 left-1/2 z-20 w-[min(640px,62%)] -translate-x-1/2">
+				{/* centered ticker on the bottom band; mute hangs at its right without shifting it */}
+				<div className="absolute bottom-[14px] left-1/2 z-20 w-[min(640px,58%)] -translate-x-1/2 sm:bottom-[18px]">
 					<Ticker />
+					<button
+						type="button"
+						aria-label={muted ? "Activar sonido" : "Silenciar"}
+						onClick={() => {
+							const on = sound.toggle();
+							setMuted(!on);
+						}}
+						className="bit-border absolute -right-12 top-1/2 flex h-9 w-10 -translate-y-1/2 cursor-pointer items-center justify-center font-pixel-body text-[10px] text-[#f5b700] hover:opacity-80"
+						style={
+							{
+								"--bb-step": "2px",
+								"--bb-frame": "#f5b700",
+								"--bb-fill": "#0a0a0a",
+							} as React.CSSProperties
+						}
+					>
+						{muted ? "×" : "♪"}
+					</button>
 				</div>
 			</div>
 
