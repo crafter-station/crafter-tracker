@@ -49,6 +49,13 @@ export default function Home() {
 	};
 
 	useEffect(() => {
+		const onOpenActivity = () => setPanel("activity");
+		document.addEventListener("app:open-activity", onOpenActivity);
+		return () =>
+			document.removeEventListener("app:open-activity", onOpenActivity);
+	}, []);
+
+	useEffect(() => {
 		fetch("/api/luma")
 			.then((r) => r.json())
 			.then((d) => Array.isArray(d.pins) && setLumaPins(d.pins))
