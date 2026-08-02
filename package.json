@@ -3,9 +3,10 @@
 	"version": "0.1.0",
 	"private": true,
 	"scripts": {
-		"dev": "next dev",
+		"dev": "portless crafter-tracker next dev",
 		"build": "next build",
-		"start": "next start"
+		"start": "next start",
+		"dev:raw": "next dev"
 	},
 	"dependencies": {
 		"@base-ui/react": "^1.6.0",
