@@ -1,5 +1,9 @@
 # Set de prompts para generar los sprites (gpt-image-2 vía Codex)
 
+> **Antes de generar**: guarda la imagen del crafternauta como `docs/mascot-reference.png`
+> (este archivo aún no existe). sprite-forge la usa como referencia canónica de identidad
+> para todas las poses; sin ella genera solo desde la descripción en texto.
+
 En Codex desktop: el skill **sprite-forge** (`~/.codex/skills/sprite-forge`) ya conoce este
 proyecto. El pedido puede ser tan simple como:
 
