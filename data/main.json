@@ -153,6 +153,18 @@
 			"createdAt": "2026-05-15T12:00:00.000Z"
 		},
 		{
+			"id": "mateada-tech",
+			"pinType": "event",
+			"lat": -34.5747,
+			"lng": -58.4189,
+			"title": "Mateada Tech",
+			"displayLocation": "El Rosedal, Palermo, Buenos Aires",
+			"description": "Picnic en el rosedal para gente tech, founders y quien quiera pasarla bien tomando mates. Traé termo, manta y cosas ricas.",
+			"url": "https://luma.com/mateadatech",
+			"xHandle": "@larichufli",
+			"createdAt": "2026-08-02T18:00:00.000Z"
+		},
+		{
 			"id": "cooking-arequipa-1",
 			"pinType": "cooking",
 			"lat": -16.409,
