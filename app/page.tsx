@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActivityLog } from "@/components/activity-log";
 import { BootScreen } from "@/components/boot-screen";
 import { Crafternaut } from "@/components/crafternaut";
@@ -183,18 +183,12 @@ export default function Home() {
 				{/* pin filters on the left band */}
 				<div className="absolute left-1 top-1/3 z-30 hidden flex-col gap-2 sm:flex">
 					{FILTERABLE.map((t) => (
-						<button
+						<FilterTab
 							key={t}
-							type="button"
-							aria-label={`Mostrar/Ocultar ${t}`}
-							onClick={() => toggleType(t)}
-							className={`pin-tab ${hiddenTypes.includes(t) ? "is-off" : ""}`}
-							style={{ "--tab-fill": PIN_COLORS[t] } as React.CSSProperties}
-						>
-							<span className="pin-tab__glyph font-pixel-body text-[11px]">
-								{PIN_GLYPHS[t]}
-							</span>
-						</button>
+							type={t}
+							off={hiddenTypes.includes(t)}
+							onToggle={() => toggleType(t)}
+						/>
 					))}
 				</div>
 
@@ -260,5 +254,81 @@ export default function Home() {
 				{mainData.init.report.ctaText}
 			</a>
 		</main>
+	);
+}
+
+function FilterTab({
+	type,
+	off,
+	onToggle,
+}: {
+	type: PinType;
+	off: boolean;
+	onToggle: () => void;
+}) {
+	const [spriteMissing, setSpriteMissing] = useState(false);
+	const [tabSpriteMissing, setTabSpriteMissing] = useState(false);
+	const tabImgRef = useRef<HTMLImageElement | null>(null);
+
+	// onError fires before hydration on static pages; re-check on mount.
+	useEffect(() => {
+		const img = tabImgRef.current;
+		if (img?.complete && img.naturalWidth === 0) setTabSpriteMissing(true);
+	}, []);
+
+	if (!tabSpriteMissing) {
+		return (
+			<button
+				type="button"
+				aria-label={`Mostrar/Ocultar ${type}`}
+				aria-pressed={!off}
+				onClick={onToggle}
+				className="cursor-pointer transition-transform duration-150 hover:scale-[1.03]"
+			>
+				{/* biome-ignore lint/performance/noImgElement: local sprite tab, swaps like the original filter_white/green */}
+				<img
+					ref={tabImgRef}
+					src={off ? "/sprites/filter-off.png" : `/sprites/filter-${type}.png`}
+					alt=""
+					width={50}
+					height={40}
+					className="pixelated"
+					onError={() => setTabSpriteMissing(true)}
+				/>
+			</button>
+		);
+	}
+
+	return (
+		<button
+			type="button"
+			aria-label={`Mostrar/Ocultar ${type}`}
+			aria-pressed={!off}
+			onClick={onToggle}
+			className={`pin-tab ${off ? "is-off" : ""}`}
+			style={
+				{
+					"--tab-fill": off ? "#f5e9c8" : PIN_COLORS[type],
+				} as React.CSSProperties
+			}
+		>
+			<span className="pin-tab__glyph">
+				{spriteMissing ? (
+					<span className="font-pixel-body text-[11px]">
+						{PIN_GLYPHS[type]}
+					</span>
+				) : (
+					// biome-ignore lint/performance/noImgElement: tiny local sprite
+					<img
+						src={`/sprites/pin-${type}.png`}
+						alt=""
+						width={22}
+						height={22}
+						className="pixelated"
+						onError={() => setSpriteMissing(true)}
+					/>
+				)}
+			</span>
+		</button>
 	);
 }

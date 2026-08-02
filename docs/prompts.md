@@ -38,6 +38,27 @@ Al copiarlos, el swap es automático.
 - **pin-event.png** — igual pero `gold #f5b700 flat fill, black 4-point star in the center`
 - **pin-drop.png** — igual pero `white #ffffff flat fill, black rocket silhouette in the center`
 - **pin-crafter.png** — igual pero `light cyan #96e0f7 flat fill, black bold letter C in the center` (pins del core team, crafter.run/team)
+- **pin-hack0.png** — igual pero `violet #b18cff flat fill, black number zero in the center` (eventos del calendario Hack0)
+
+## 1b. Filter tabs (4) — destino `public/sprites/filter-<id>.png`, grid 50x40
+
+Réplica del `filter_green/red/white.png` original: badge pixel redondeado, borde negro
+grueso, brillo especular arriba-derecha, y una "oreja" rectangular que sobresale del
+borde DERECHO al centro. Referencia de forma: `docs/reference-filter-tab.png` (el asset
+real de Sony, solo como referencia de silueta — no copiar la araña).
+
+- **filter-shipped.png** — verde #00ff50, silueta de casco de astronauta negra
+- **filter-cooking.png** — rojo #ff4040, signo de interrogación negro
+- **filter-hack0.png** — violeta #b18cff, número cero negro
+- **filter-off.png** — blanco cálido #f5e9c8, casco negro (estado apagado, igual que el original usa blanco)
+
+Prompt: `[estilo] small UI toggle button sprite, rounded square pixel badge with thick
+black border, [color] flat fill, tiny white specular highlight near the top right corner,
+a small rectangular tab ear sticking out of the right edge at vertical center, [glifo]
+centered, retro video game map filter button`
+
+El código ya los busca: cuando existan, reemplazan la forma CSS actual automáticamente
+(mismo patrón onError que los pins).
 
 Post: `pixelize.py <archivo> --grid 32x32 --palette "<paleta>"`
 
