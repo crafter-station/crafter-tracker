@@ -41,13 +41,14 @@ export function TrackerMap({
 			setSelected(pin);
 			return;
 		}
-		// Aggressive dive to the epicenter. The alternating lateral offset
-		// guarantees perceptible camera motion even when re-clicking pins
-		// that share (or converge on) the same spot.
+		// Dive to the epicenter at a FIXED zoom (deep but not extreme), so
+		// every click lands at the same level instead of compounding. The
+		// alternating lateral offset keeps the camera moving even when
+		// re-clicking pins that share the same spot.
 		swayRef.current = -swayRef.current;
 		map.flyTo({
 			center: [pin.lng, pin.lat],
-			zoom: Math.max(map.getZoom() + 1.5, 7.5),
+			zoom: 9,
 			offset: [swayRef.current * 90, 50],
 			speed: 1.7,
 			curve: 1.8,
