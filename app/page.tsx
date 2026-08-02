@@ -8,6 +8,7 @@ import { HelpPanel } from "@/components/help-panel";
 import { MissionLog } from "@/components/mission-log";
 import { NavDrawer } from "@/components/nav-drawer";
 import { Ticker } from "@/components/ticker";
+import { TutorialOverlay } from "@/components/tutorial-overlay";
 import { WelcomeScreen } from "@/components/welcome-screen";
 import mainData from "@/data/main.json";
 import { sound } from "@/lib/sound";
@@ -29,7 +30,10 @@ const bitDark = {
 } as React.CSSProperties;
 
 export default function Home() {
-	const [booted, setBooted] = useState(false);
+	const [stage, setStage] = useState<"welcome" | "tutorial" | "live">(
+		"welcome",
+	);
+	const booted = stage === "live";
 	const [panel, setPanel] = useState<Panel>("none");
 	const [menuState, setMenuState] = useState<"closed" | "open" | "closing">(
 		"closed",
@@ -112,7 +116,18 @@ export default function Home() {
 
 						<div className="screen-depth" aria-hidden />
 
-						{!booted && <WelcomeScreen onDone={() => setBooted(true)} />}
+						{stage === "welcome" && (
+							<WelcomeScreen onDone={() => setStage("tutorial")} />
+						)}
+						{stage === "tutorial" && (
+							<TutorialOverlay
+								onClose={() => {
+									setStage("live");
+									sound.play("jingle", 0.22);
+									setTimeout(() => sound.say("welcome"), 1200);
+								}}
+							/>
+						)}
 
 						{/* rulers */}
 						<div className="ruler-h pointer-events-none absolute left-14 right-14 top-1 z-10 opacity-70" />
@@ -215,7 +230,13 @@ export default function Home() {
 				{/* centered ticker on the bottom band; mute hangs at its right without shifting it */}
 				<div className="absolute bottom-[14px] left-1/2 z-20 w-[min(640px,58%)] -translate-x-1/2 sm:bottom-[18px]">
 					<Ticker
-						staticText={booted ? undefined : "SELECCIONA UNA OPCIÓN DE SONIDO"}
+						staticText={
+							stage === "welcome"
+								? "SELECCIONA UNA OPCIÓN DE SONIDO"
+								: stage === "tutorial"
+									? "SALTAR"
+									: undefined
+						}
 					/>
 					<button
 						type="button"

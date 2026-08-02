@@ -173,7 +173,7 @@ export function Radar({
 				style={{ width: SIZE, height: SIZE }}
 				aria-label="Radar de actividad"
 			/>
-			<div className="absolute -right-1 top-1 flex flex-col gap-1">
+			<div className="absolute -right-3 top-0 flex flex-col gap-2">
 				<button
 					type="button"
 					aria-label="Vista global"
@@ -184,12 +184,12 @@ export function Radar({
 							speed: 1.2,
 						})
 					}
-					className="bit-border px-1.5 py-1 font-pixel-body text-[8px] text-[#f5b700] hover:opacity-80"
+					className="bit-border flex h-8 w-8 cursor-pointer items-center justify-center font-pixel-body text-[13px] text-black hover:opacity-85"
 					style={
 						{
 							"--bb-step": "2px",
-							"--bb-frame": "#f5b700",
-							"--bb-fill": "#0a0a0a",
+							"--bb-frame": "#0a0a0a",
+							"--bb-fill": "#f5b700",
 						} as React.CSSProperties
 					}
 				>
@@ -205,12 +205,12 @@ export function Radar({
 							speed: 1.2,
 						})
 					}
-					className="bit-border px-1.5 py-1 font-pixel-body text-[8px] text-[#f5b700] hover:opacity-80"
+					className="bit-border flex h-8 w-8 cursor-pointer items-center justify-center font-pixel-body text-[13px] text-black hover:opacity-85"
 					style={
 						{
 							"--bb-step": "2px",
-							"--bb-frame": "#f5b700",
-							"--bb-fill": "#0a0a0a",
+							"--bb-frame": "#0a0a0a",
+							"--bb-fill": "#f5b700",
 						} as React.CSSProperties
 					}
 				>
