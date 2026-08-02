@@ -7,7 +7,6 @@ const LINKS = [
 		label: "GITHUB",
 		href: "https://github.com/crafter-station/crafter-tracker",
 	},
-	{ label: "EL EQUIPO", href: "https://crafter.run/team" },
 	{ label: "CALENDARIO", href: "https://luma.com/hack0" },
 	{ label: "X", href: "https://x.com/crafterstation" },
 	{ label: "LINKEDIN", href: "https://linkedin.com/company/crafter-station" },
