@@ -84,8 +84,8 @@ export default function Home() {
 	];
 
 	return (
-		<main className="bg-[#06060a]">
-			<div className="relative h-[94dvh] min-h-[540px] px-2 pt-5 pb-5 sm:px-5 sm:pt-7 sm:pb-7">
+		<main className="flex h-dvh flex-col bg-[#06060a]">
+			<div className="relative min-h-0 flex-1 px-2 pt-5 pb-5 sm:px-5 sm:pt-6 sm:pb-6">
 				{/* console band */}
 				<div
 					className="bit-border relative h-full"
