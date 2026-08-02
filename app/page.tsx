@@ -7,6 +7,7 @@ import { Crafternaut } from "@/components/crafternaut";
 import { HelpPanel } from "@/components/help-panel";
 import { MissionLog } from "@/components/mission-log";
 import { NavDrawer } from "@/components/nav-drawer";
+import { SiteFooter } from "@/components/site-footer";
 import { Ticker } from "@/components/ticker";
 import { TutorialOverlay } from "@/components/tutorial-overlay";
 import { WelcomeScreen } from "@/components/welcome-screen";
@@ -83,226 +84,232 @@ export default function Home() {
 	];
 
 	return (
-		<main className="relative h-dvh bg-[#06060a] px-2 pt-5 pb-5 sm:px-5 sm:pt-7 sm:pb-7">
-			{/* console band */}
-			<div
-				className="bit-border relative h-full"
-				style={
-					{
-						"--bb-step": "4px",
-						"--bb-frame": "#0a0a0a",
-						"--bb-fill": "#c9970a",
-					} as React.CSSProperties
-				}
-			>
-				{/* band texture + raised bevel */}
-				<div className="scanlines pointer-events-none absolute inset-0" />
-				<div className="band-bevel" aria-hidden />
-
-				{/* screen (map) */}
+		<main className="bg-[#06060a]">
+			<div className="relative h-[94dvh] min-h-[540px] px-2 pt-5 pb-5 sm:px-5 sm:pt-7 sm:pb-7">
+				{/* console band */}
 				<div
-					className="bit-border absolute inset-x-4 top-6 bottom-14 sm:inset-x-6 sm:top-7 sm:bottom-[72px]"
+					className="bit-border relative h-full"
 					style={
 						{
-							"--bb-step": "3px",
+							"--bb-step": "4px",
 							"--bb-frame": "#0a0a0a",
-							"--bb-fill": "#0a0a0a",
+							"--bb-fill": "#c9970a",
 						} as React.CSSProperties
 					}
 				>
-					<div className="absolute inset-[6px] overflow-hidden">
-						<TrackerMap extraPins={lumaPins} hiddenTypes={hiddenTypes} />
+					{/* band texture + raised bevel */}
+					<div className="scanlines pointer-events-none absolute inset-0" />
+					<div className="band-bevel" aria-hidden />
 
-						<div className="screen-depth" aria-hidden />
+					{/* screen (map) */}
+					<div
+						className="bit-border absolute inset-x-4 top-6 bottom-14 sm:inset-x-6 sm:top-7 sm:bottom-[72px]"
+						style={
+							{
+								"--bb-step": "3px",
+								"--bb-frame": "#0a0a0a",
+								"--bb-fill": "#0a0a0a",
+							} as React.CSSProperties
+						}
+					>
+						<div className="absolute inset-[6px] overflow-hidden">
+							<TrackerMap extraPins={lumaPins} hiddenTypes={hiddenTypes} />
 
-						{stage === "welcome" && (
-							<WelcomeScreen onDone={() => setStage("tutorial")} />
-						)}
-						{stage === "tutorial" && (
-							<TutorialOverlay
-								onClose={() => {
-									setStage("initmap");
-									setTimeout(() => {
-										setStage("live");
-										sound.play("jingle", 0.22);
-										setTimeout(() => sound.say("welcome"), 1200);
-									}, 1500);
-								}}
+							<div className="screen-depth" aria-hidden />
+
+							{stage === "welcome" && (
+								<WelcomeScreen onDone={() => setStage("tutorial")} />
+							)}
+							{stage === "tutorial" && (
+								<TutorialOverlay
+									onClose={() => {
+										setStage("initmap");
+										setTimeout(() => {
+											setStage("live");
+											sound.play("jingle", 0.22);
+											setTimeout(() => sound.say("welcome"), 1200);
+										}, 1500);
+									}}
+								/>
+							)}
+							{stage === "initmap" && (
+								<div className="absolute inset-0 z-40 flex items-center justify-center bg-[#0a0a0a]">
+									<p className="blink font-pixel-body text-[11px] tracking-widest text-[#f5b700]">
+										INICIALIZANDO MAPA...
+									</p>
+								</div>
+							)}
+
+							{/* rulers */}
+							<div className="ruler-h pointer-events-none absolute left-14 right-14 top-1 z-10 opacity-70" />
+							<div className="ruler-v pointer-events-none absolute bottom-14 left-1 top-14 z-10 opacity-70" />
+
+							{panel === "activity" && (
+								<ActivityLog
+									extraPins={lumaPins}
+									onClose={() => setPanel("none")}
+								/>
+							)}
+							{panel === "mission" && (
+								<MissionLog onClose={() => setPanel("none")} />
+							)}
+							{panel === "help" && (
+								<HelpPanel onClose={() => setPanel("none")} />
+							)}
+							{menuState !== "closed" && (
+								<NavDrawer
+									items={navItems}
+									closing={menuState === "closing"}
+									onClose={() => setMenuState("closing")}
+									onCloseComplete={() => setMenuState("closed")}
+								/>
+							)}
+						</div>
+					</div>
+
+					{/* menu button on the band, top-left corner */}
+					{booted && (
+						<button
+							type="button"
+							aria-label={menuState === "open" ? "Cerrar menú" : "Abrir menú"}
+							onClick={() =>
+								setMenuState((s) => (s === "open" ? "closing" : "open"))
+							}
+							className="bit-border absolute left-2 top-2 z-50 flex h-10 w-10 cursor-pointer items-center justify-center hover:opacity-85 sm:h-11 sm:w-11"
+							style={
+								{
+									"--bb-step": "2px",
+									"--bb-frame": "#f5b700",
+									"--bb-fill": "#0a0a0a",
+								} as React.CSSProperties
+							}
+						>
+							<span
+								className={`burger ${menuState === "open" ? "is-open" : ""}`}
+								aria-hidden
+							>
+								<span />
+								<span />
+								<span />
+							</span>
+						</button>
+					)}
+
+					{/* mascot badge, top-right corner */}
+					<a
+						href="https://crafterstation.com"
+						target="_blank"
+						rel="noopener noreferrer"
+						aria-label="Crafter Station"
+						className="bit-border absolute right-2 top-2 z-30 hidden h-11 w-11 items-center justify-center hover:opacity-85 sm:flex"
+						style={
+							{
+								"--bb-step": "2px",
+								"--bb-frame": "#0a0a0a",
+								"--bb-fill": "#f5e9c8",
+							} as React.CSSProperties
+						}
+					>
+						{/* biome-ignore lint/performance/noImgElement: tiny local sprite */}
+						<img
+							src="/sprites/crafternaut-look-left.png"
+							alt=""
+							width={26}
+							height={38}
+							className="pixelated"
+						/>
+					</a>
+
+					{/* pin filters on the left band */}
+					<div
+						className={`absolute left-1 top-1/3 z-30 hidden flex-col gap-2 sm:flex ${
+							booted ? "" : "pointer-events-none"
+						}`}
+					>
+						{FILTERABLE.map((t) => (
+							<FilterTab
+								key={t}
+								type={t}
+								off={hiddenTypes.includes(t)}
+								inactive={!booted}
+								onToggle={() => toggleType(t)}
 							/>
-						)}
-						{stage === "initmap" && (
-							<div className="absolute inset-0 z-40 flex items-center justify-center bg-[#0a0a0a]">
-								<p className="blink font-pixel-body text-[11px] tracking-widest text-[#f5b700]">
-									INICIALIZANDO MAPA...
-								</p>
-							</div>
-						)}
+						))}
+					</div>
 
-						{/* rulers */}
-						<div className="ruler-h pointer-events-none absolute left-14 right-14 top-1 z-10 opacity-70" />
-						<div className="ruler-v pointer-events-none absolute bottom-14 left-1 top-14 z-10 opacity-70" />
+					{/* mascot standing on the bottom band, left of the centered ticker */}
+					<Crafternaut />
 
-						{panel === "activity" && (
-							<ActivityLog
-								extraPins={lumaPins}
-								onClose={() => setPanel("none")}
-							/>
-						)}
-						{panel === "mission" && (
-							<MissionLog onClose={() => setPanel("none")} />
-						)}
-						{panel === "help" && <HelpPanel onClose={() => setPanel("none")} />}
-						{menuState !== "closed" && (
-							<NavDrawer
-								items={navItems}
-								closing={menuState === "closing"}
-								onClose={() => setMenuState("closing")}
-								onCloseComplete={() => setMenuState("closed")}
-							/>
-						)}
+					{/* centered ticker on the bottom band; mute hangs at its right without shifting it */}
+					<div className="absolute bottom-[14px] left-1/2 z-20 w-[min(640px,58%)] -translate-x-1/2 sm:bottom-[18px]">
+						<Ticker
+							staticText={
+								stage === "welcome"
+									? "SELECCIONA UNA OPCIÓN DE SONIDO"
+									: stage === "tutorial"
+										? "SALTAR"
+										: stage === "initmap"
+											? "CARGANDO"
+											: undefined
+							}
+						/>
+						<button
+							type="button"
+							aria-label={muted ? "Activar sonido" : "Silenciar"}
+							onClick={() => {
+								const on = sound.toggle();
+								setMuted(!on);
+							}}
+							className="bit-border absolute -right-12 top-1/2 flex h-9 w-10 -translate-y-1/2 cursor-pointer items-center justify-center font-pixel-body text-[10px] text-[#f5b700] hover:opacity-80"
+							style={
+								{
+									"--bb-step": "2px",
+									"--bb-frame": "#f5b700",
+									"--bb-fill": "#0a0a0a",
+								} as React.CSSProperties
+							}
+						>
+							{muted ? "×" : "♪"}
+						</button>
 					</div>
 				</div>
 
-				{/* menu button on the band, top-left corner */}
-				{booted && (
-					<button
-						type="button"
-						aria-label={menuState === "open" ? "Cerrar menú" : "Abrir menú"}
-						onClick={() =>
-							setMenuState((s) => (s === "open" ? "closing" : "open"))
-						}
-						className="bit-border absolute left-2 top-2 z-50 flex h-10 w-10 cursor-pointer items-center justify-center hover:opacity-85 sm:h-11 sm:w-11"
-						style={
-							{
-								"--bb-step": "2px",
-								"--bb-frame": "#f5b700",
-								"--bb-fill": "#0a0a0a",
-							} as React.CSSProperties
-						}
-					>
-						<span
-							className={`burger ${menuState === "open" ? "is-open" : ""}`}
-							aria-hidden
-						>
-							<span />
-							<span />
-							<span />
-						</span>
-					</button>
-				)}
+				{/* title plaque straddling the console's top edge (generated asset) */}
+				<h1 className="absolute left-1/2 top-1 z-30 -translate-x-1/2">
+					<span className="sr-only">Crafter Tracker</span>
+					{/* biome-ignore lint/performance/noImgElement: local pixel plaque, swap letter a-d to pick a candidate */}
+					<img
+						src="/sprites/title-plaque-a.png"
+						alt=""
+						width={200}
+						height={36}
+						className="pixelated h-12 w-auto sm:h-14"
+						draggable={false}
+					/>
+				</h1>
 
-				{/* mascot badge, top-right corner */}
+				{/* hanging CTAs (outside the clipped band) */}
 				<a
-					href="https://crafterstation.com"
+					href="https://crafter.run/team"
 					target="_blank"
 					rel="noopener noreferrer"
-					aria-label="Crafter Station"
-					className="bit-border absolute right-2 top-2 z-30 hidden h-11 w-11 items-center justify-center hover:opacity-85 sm:flex"
-					style={
-						{
-							"--bb-step": "2px",
-							"--bb-frame": "#0a0a0a",
-							"--bb-fill": "#f5e9c8",
-						} as React.CSSProperties
-					}
+					className="bit-border absolute bottom-1 left-14 z-30 hidden px-3 py-1.5 font-pixel-body text-[8px] text-black hover:opacity-85 sm:block"
+					style={bitDark}
 				>
-					{/* biome-ignore lint/performance/noImgElement: tiny local sprite */}
-					<img
-						src="/sprites/crafternaut-look-left.png"
-						alt=""
-						width={26}
-						height={38}
-						className="pixelated"
-					/>
+					EL EQUIPO
 				</a>
-
-				{/* pin filters on the left band */}
-				<div
-					className={`absolute left-1 top-1/3 z-30 hidden flex-col gap-2 sm:flex ${
-						booted ? "" : "pointer-events-none"
-					}`}
+				<a
+					href={reportUrl}
+					target="_blank"
+					rel="noopener noreferrer"
+					className="bit-border absolute bottom-1 right-14 z-30 hidden px-3 py-1.5 font-pixel-body text-[8px] text-black hover:opacity-85 sm:block"
+					style={bitDark}
 				>
-					{FILTERABLE.map((t) => (
-						<FilterTab
-							key={t}
-							type={t}
-							off={hiddenTypes.includes(t)}
-							inactive={!booted}
-							onToggle={() => toggleType(t)}
-						/>
-					))}
-				</div>
-
-				{/* mascot standing on the bottom band, left of the centered ticker */}
-				<Crafternaut />
-
-				{/* centered ticker on the bottom band; mute hangs at its right without shifting it */}
-				<div className="absolute bottom-[14px] left-1/2 z-20 w-[min(640px,58%)] -translate-x-1/2 sm:bottom-[18px]">
-					<Ticker
-						staticText={
-							stage === "welcome"
-								? "SELECCIONA UNA OPCIÓN DE SONIDO"
-								: stage === "tutorial"
-									? "SALTAR"
-									: stage === "initmap"
-										? "CARGANDO"
-										: undefined
-						}
-					/>
-					<button
-						type="button"
-						aria-label={muted ? "Activar sonido" : "Silenciar"}
-						onClick={() => {
-							const on = sound.toggle();
-							setMuted(!on);
-						}}
-						className="bit-border absolute -right-12 top-1/2 flex h-9 w-10 -translate-y-1/2 cursor-pointer items-center justify-center font-pixel-body text-[10px] text-[#f5b700] hover:opacity-80"
-						style={
-							{
-								"--bb-step": "2px",
-								"--bb-frame": "#f5b700",
-								"--bb-fill": "#0a0a0a",
-							} as React.CSSProperties
-						}
-					>
-						{muted ? "×" : "♪"}
-					</button>
-				</div>
+					{mainData.init.report.ctaText}
+				</a>
 			</div>
 
-			{/* title plaque straddling the console's top edge (generated asset) */}
-			<h1 className="absolute left-1/2 top-1 z-30 -translate-x-1/2">
-				<span className="sr-only">Crafter Tracker</span>
-				{/* biome-ignore lint/performance/noImgElement: local pixel plaque, swap letter a-d to pick a candidate */}
-				<img
-					src="/sprites/title-plaque-a.png"
-					alt=""
-					width={200}
-					height={36}
-					className="pixelated h-12 w-auto sm:h-14"
-					draggable={false}
-				/>
-			</h1>
-
-			{/* hanging CTAs (outside the clipped band) */}
-			<a
-				href="https://crafter.run/team"
-				target="_blank"
-				rel="noopener noreferrer"
-				className="bit-border absolute bottom-1 left-14 z-30 hidden px-3 py-1.5 font-pixel-body text-[8px] text-black hover:opacity-85 sm:block"
-				style={bitDark}
-			>
-				EL EQUIPO
-			</a>
-			<a
-				href={reportUrl}
-				target="_blank"
-				rel="noopener noreferrer"
-				className="bit-border absolute bottom-1 right-14 z-30 hidden px-3 py-1.5 font-pixel-body text-[8px] text-black hover:opacity-85 sm:block"
-				style={bitDark}
-			>
-				{mainData.init.report.ctaText}
-			</a>
+			<SiteFooter lumaPins={lumaPins} />
 		</main>
 	);
 }
