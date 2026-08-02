@@ -92,8 +92,9 @@ export default function Home() {
 					} as React.CSSProperties
 				}
 			>
-				{/* band texture */}
+				{/* band texture + raised bevel */}
 				<div className="scanlines pointer-events-none absolute inset-0" />
+				<div className="band-bevel" aria-hidden />
 
 				{/* screen (map) */}
 				<div
@@ -108,6 +109,8 @@ export default function Home() {
 				>
 					<div className="absolute inset-[6px] overflow-hidden">
 						<TrackerMap extraPins={lumaPins} hiddenTypes={hiddenTypes} />
+
+						<div className="screen-depth" aria-hidden />
 
 						{!booted && <WelcomeScreen onDone={() => setBooted(true)} />}
 
