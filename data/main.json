@@ -38,13 +38,15 @@
 			"viewShipText": "VER SHIP",
 			"viewCookingText": "VER QUIÉN COCINA",
 			"viewEventText": "VER EVENTO",
-			"viewDropText": "VER ANUNCIO"
+			"viewDropText": "VER ANUNCIO",
+			"viewCrafterText": "VER PERFIL"
 		},
 		"legend": {
 			"shipped": "SHIP CONFIRMADO",
 			"cooking": "COOKING",
 			"event": "EVENTO",
-			"drop": "ANUNCIO"
+			"drop": "ANUNCIO",
+			"crafter": "CRAFTER"
 		}
 	},
 	"pins": [
@@ -175,6 +177,149 @@
 			"description": "Alguien entrena un agente. Cooking desde hace 3 días.",
 			"xHandle": "@crafter_station",
 			"createdAt": "2026-07-29T18:00:00.000Z"
+		},
+		{
+			"id": "crafter-railly",
+			"pinType": "crafter",
+			"lat": -34.578,
+			"lng": -58.42,
+			"title": "Railly Hugo",
+			"displayLocation": "Palermo, Buenos Aires",
+			"description": "Founder · Design Engineer. Único crafter en territorio gaucho.",
+			"url": "https://crafter.run/en/team/railly",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-cuevaio",
+			"pinType": "crafter",
+			"lat": -12.096,
+			"lng": -77.043,
+			"title": "Anthony Cueva",
+			"displayLocation": "Lima, Perú",
+			"description": "Cofounder · Product Engineer.",
+			"url": "https://crafter.run/en/team/cuevaio",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-shiara",
+			"pinType": "crafter",
+			"lat": -12.071,
+			"lng": -77.0,
+			"title": "Shiara Arauzo",
+			"displayLocation": "Lima, Perú",
+			"description": "Design Engineer.",
+			"url": "https://crafter.run/en/team/shiara",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-ignacio",
+			"pinType": "crafter",
+			"lat": -12.021,
+			"lng": -77.0,
+			"title": "Ignacio Rueda",
+			"displayLocation": "Lima, Perú",
+			"description": "Backend Engineer.",
+			"url": "https://crafter.run/en/team/ignacio",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-liz",
+			"pinType": "crafter",
+			"lat": -11.996,
+			"lng": -77.043,
+			"title": "Liz Riveros",
+			"displayLocation": "Lima, Perú",
+			"description": "Project Manager.",
+			"url": "https://crafter.run/en/team/liz",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-tarmeno",
+			"pinType": "crafter",
+			"lat": -12.021,
+			"lng": -77.086,
+			"title": "Carlos Tarmeno",
+			"displayLocation": "Lima, Perú",
+			"description": "Frontend Engineer.",
+			"url": "https://crafter.run/en/team/tarmeno",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-edward",
+			"pinType": "crafter",
+			"lat": -12.071,
+			"lng": -77.086,
+			"title": "Edward Ramos",
+			"displayLocation": "Lima, Perú",
+			"description": "Frontend Engineer.",
+			"url": "https://crafter.run/en/team/edward",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-emmy",
+			"pinType": "crafter",
+			"lat": 4.751,
+			"lng": -74.072,
+			"title": "Emmy Arias",
+			"displayLocation": "Bogotá, Colombia",
+			"description": "Growth & Marketing.",
+			"url": "https://crafter.run/en/team/emmy",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-cris",
+			"pinType": "crafter",
+			"lat": 4.711,
+			"lng": -74.032,
+			"title": "Cristian Correa",
+			"displayLocation": "Bogotá, Colombia",
+			"description": "Data & Software Engineer.",
+			"url": "https://crafter.run/en/team/cris",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-nicolas",
+			"pinType": "crafter",
+			"lat": 4.671,
+			"lng": -74.072,
+			"title": "Nicolas Vargas",
+			"displayLocation": "Bogotá, Colombia",
+			"description": "AI Engineer.",
+			"url": "https://crafter.run/en/team/nicolas",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-juan",
+			"pinType": "crafter",
+			"lat": 4.711,
+			"lng": -74.112,
+			"title": "Juan Ortega",
+			"displayLocation": "Bogotá, Colombia",
+			"description": "Software Engineer.",
+			"url": "https://crafter.run/en/team/juan",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-nacho",
+			"pinType": "crafter",
+			"lat": -16.409,
+			"lng": -71.499,
+			"title": "Ignacio Velasquez",
+			"displayLocation": "Arequipa, Perú",
+			"description": "Growth & Automation.",
+			"url": "https://crafter.run/en/team/nacho",
+			"createdAt": "2026-08-02T00:00:00.000Z"
+		},
+		{
+			"id": "crafter-gabriel",
+			"pinType": "crafter",
+			"lat": -20.3297,
+			"lng": -40.2925,
+			"title": "Gabriel Antunes",
+			"displayLocation": "Vila Velha, Brasil",
+			"description": "AI Engineer · Full-Stack.",
+			"url": "https://crafter.run/en/team/gabriel",
+			"createdAt": "2026-08-02T00:00:00.000Z"
 		}
 	]
 }

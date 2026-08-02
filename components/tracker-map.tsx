@@ -40,7 +40,7 @@ export function TrackerMap() {
 				ref={mapRef}
 				theme="dark"
 				styles={{ dark: DARK_STYLE }}
-				viewport={{ center: [-70, -5], zoom: 2.6 }}
+				viewport={{ center: [-67, -14], zoom: 2.5 }}
 				className="h-full w-full"
 			>
 				{PINS.map((pin) => (

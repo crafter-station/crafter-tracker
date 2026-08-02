@@ -1,6 +1,6 @@
 import mainData from "@/data/main.json";
 
-export type PinType = "shipped" | "cooking" | "event" | "drop";
+export type PinType = "shipped" | "cooking" | "event" | "drop" | "crafter";
 
 export type Pin = {
 	id: string;
@@ -24,6 +24,7 @@ export const PIN_COLORS: Record<PinType, string> = {
 	cooking: "#ff4040",
 	event: "#f5b700",
 	drop: "#ffffff",
+	crafter: "#96e0f7",
 };
 
 export const PIN_GLYPHS: Record<PinType, string> = {
@@ -31,13 +32,15 @@ export const PIN_GLYPHS: Record<PinType, string> = {
 	cooking: "?",
 	event: "★",
 	drop: "◆",
+	crafter: "C",
 };
 
 export const PIN_Z: Record<PinType, number> = {
-	drop: 4,
-	event: 3,
-	shipped: 2,
-	cooking: 1,
+	drop: 5,
+	event: 4,
+	shipped: 3,
+	cooking: 2,
+	crafter: 1,
 };
 
 export function getPins(): Pin[] {
@@ -65,6 +68,8 @@ export function pinCtaText(pin: Pin): string {
 			return t.viewEventText;
 		case "drop":
 			return t.viewDropText;
+		case "crafter":
+			return t.viewCrafterText;
 	}
 }
 

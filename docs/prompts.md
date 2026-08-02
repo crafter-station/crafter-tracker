@@ -37,6 +37,7 @@ Al copiarlos, el swap es automático.
 - **pin-cooking.png** — igual pero `red #ff4040 flat fill, black question mark in the center`
 - **pin-event.png** — igual pero `gold #f5b700 flat fill, black 4-point star in the center`
 - **pin-drop.png** — igual pero `white #ffffff flat fill, black rocket silhouette in the center`
+- **pin-crafter.png** — igual pero `light cyan #96e0f7 flat fill, black bold letter C in the center` (pins del core team, crafter.run/team)
 
 Post: `pixelize.py <archivo> --grid 32x32 --palette "<paleta>"`
 
