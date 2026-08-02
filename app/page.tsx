@@ -30,9 +30,9 @@ const bitDark = {
 } as React.CSSProperties;
 
 export default function Home() {
-	const [stage, setStage] = useState<"welcome" | "tutorial" | "live">(
-		"welcome",
-	);
+	const [stage, setStage] = useState<
+		"welcome" | "tutorial" | "initmap" | "live"
+	>("welcome");
 	const booted = stage === "live";
 	const [panel, setPanel] = useState<Panel>("none");
 	const [menuState, setMenuState] = useState<"closed" | "open" | "closing">(
@@ -122,11 +122,21 @@ export default function Home() {
 						{stage === "tutorial" && (
 							<TutorialOverlay
 								onClose={() => {
-									setStage("live");
-									sound.play("jingle", 0.22);
-									setTimeout(() => sound.say("welcome"), 1200);
+									setStage("initmap");
+									setTimeout(() => {
+										setStage("live");
+										sound.play("jingle", 0.22);
+										setTimeout(() => sound.say("welcome"), 1200);
+									}, 1500);
 								}}
 							/>
+						)}
+						{stage === "initmap" && (
+							<div className="absolute inset-0 z-40 flex items-center justify-center bg-[#0a0a0a]">
+								<p className="blink font-pixel-body text-[11px] tracking-widest text-[#f5b700]">
+									INICIALIZANDO MAPA...
+								</p>
+							</div>
 						)}
 
 						{/* rulers */}
@@ -235,7 +245,9 @@ export default function Home() {
 								? "SELECCIONA UNA OPCIÓN DE SONIDO"
 								: stage === "tutorial"
 									? "SALTAR"
-									: undefined
+									: stage === "initmap"
+										? "CARGANDO"
+										: undefined
 						}
 					/>
 					<button

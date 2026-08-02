@@ -27,8 +27,13 @@ export function TutorialOverlay({ onClose }: { onClose: () => void }) {
 			type="button"
 			onClick={onClose}
 			aria-label="Saltar tutorial"
-			className="panel-in absolute inset-0 z-40 cursor-pointer bg-black/70 text-left"
+			className="panel-in absolute inset-0 z-40 cursor-pointer bg-[#0a0a0a] text-left"
 		>
+			<span
+				aria-hidden
+				className="absolute inset-0 bg-cover bg-center opacity-30"
+				style={{ backgroundImage: "url(/tutorial-bg.jpg)" }}
+			/>
 			{/* welcome, short and to the point */}
 			<p className="absolute left-1/2 top-[16%] w-full max-w-lg -translate-x-1/2 px-6 text-center font-pixel-body text-[11px] leading-loose text-[#f5b700]">
 				¡BIENVENIDO! ESTO ES TODO LO QUE NECESITAS SABER.
