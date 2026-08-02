@@ -17,7 +17,7 @@ export function Ticker() {
 				} as React.CSSProperties
 			}
 		>
-			<div className="ticker-track flex w-max whitespace-nowrap py-2">
+			<div className="ticker-track-slow flex w-max whitespace-nowrap py-2">
 				{[0, 1].map((i) => (
 					<span
 						key={i}

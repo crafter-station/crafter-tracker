@@ -18,7 +18,7 @@ export function MissionLog({ onClose }: { onClose: () => void }) {
 
 	return (
 		<div
-			className="bit-border absolute inset-3 z-30 flex flex-col"
+			className="bit-border panel-in absolute inset-3 z-30 flex flex-col"
 			style={
 				{
 					"--bb-step": "3px",

@@ -46,7 +46,7 @@ export function ActivityLog({
 
 	return (
 		<div
-			className="bit-border absolute left-3 top-3 bottom-3 z-30 flex w-80 max-w-[85%] flex-col"
+			className="bit-border panel-in absolute left-3 top-3 bottom-3 z-30 flex w-80 max-w-[85%] flex-col"
 			style={
 				{
 					"--bb-step": "3px",

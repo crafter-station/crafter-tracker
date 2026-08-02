@@ -341,3 +341,262 @@
 .maplibregl-ctrl-attrib a {
 	color: #aaa;
 }
+
+/* ============ CHROME v2: fidelidad Spidey Tracker ============ */
+
+/* --- panel & card entrance animations (original uses short eased transitions) --- */
+@keyframes panel-in {
+	0% {
+		opacity: 0;
+		transform: translateY(10px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.panel-in {
+	animation: panel-in 180ms ease-out both;
+}
+
+@keyframes card-pop {
+	0% {
+		opacity: 0;
+		transform: translateY(6px) scale(0.96);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0) scale(1);
+	}
+}
+.card-pop {
+	animation: card-pop 160ms ease-out both;
+}
+
+@keyframes drawer-in {
+	0% {
+		transform: translateX(-100%);
+	}
+	100% {
+		transform: translateX(0);
+	}
+}
+.drawer-in {
+	animation: drawer-in 260ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* --- rulers (tick marks) like the original's measuring strips --- */
+.ruler-h {
+	height: 10px;
+	background-image:
+		repeating-linear-gradient(
+			to right,
+			rgba(245, 233, 200, 0.55) 0,
+			rgba(245, 233, 200, 0.55) 1px,
+			transparent 1px,
+			transparent 12px
+		),
+		repeating-linear-gradient(
+			to right,
+			rgba(245, 233, 200, 0.8) 0,
+			rgba(245, 233, 200, 0.8) 1px,
+			transparent 1px,
+			transparent 60px
+		);
+	background-size:
+		100% 5px,
+		100% 10px;
+	background-repeat: no-repeat;
+	background-position: bottom, bottom;
+}
+.ruler-v {
+	width: 10px;
+	background-image:
+		repeating-linear-gradient(
+			to bottom,
+			rgba(245, 233, 200, 0.55) 0,
+			rgba(245, 233, 200, 0.55) 1px,
+			transparent 1px,
+			transparent 12px
+		),
+		repeating-linear-gradient(
+			to bottom,
+			rgba(245, 233, 200, 0.8) 0,
+			rgba(245, 233, 200, 0.8) 1px,
+			transparent 1px,
+			transparent 60px
+		);
+	background-size:
+		5px 100%,
+		10px 100%;
+	background-repeat: no-repeat;
+	background-position: right, right;
+}
+
+/* --- graticule: faint dashed lat/long lines over the map --- */
+.graticule {
+	pointer-events: none;
+	background-image:
+		repeating-linear-gradient(
+			to bottom,
+			rgba(245, 233, 200, 0.07) 0,
+			rgba(245, 233, 200, 0.07) 1px,
+			transparent 1px,
+			transparent 120px
+		),
+		repeating-linear-gradient(
+			to right,
+			rgba(245, 233, 200, 0.05) 0,
+			rgba(245, 233, 200, 0.05) 1px,
+			transparent 1px,
+			transparent 160px
+		);
+}
+
+/* --- slower, centered ticker --- */
+@keyframes ticker-scroll-slow {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-50%);
+	}
+}
+.ticker-track-slow {
+	animation: ticker-scroll-slow 55s linear infinite;
+}
+
+/* --- drawer exit + backdrop --- */
+@keyframes drawer-out {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+.drawer-out {
+	animation: drawer-out 220ms cubic-bezier(0.7, 0, 0.84, 0) both;
+}
+@keyframes backdrop-in {
+	0% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+.backdrop-in {
+	animation: backdrop-in 200ms ease-out both;
+}
+.backdrop-out {
+	animation: backdrop-in 200ms ease-in reverse both;
+}
+
+/* --- burger icon morph (3 bars -> X) --- */
+.burger {
+	display: inline-flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 4px;
+	width: 18px;
+	height: 16px;
+}
+.burger span {
+	display: block;
+	height: 3px;
+	width: 100%;
+	background: #f5b700;
+	transition:
+		transform 200ms ease,
+		opacity 150ms ease;
+}
+.burger.is-open span:nth-child(1) {
+	transform: translateY(7px) rotate(45deg);
+}
+.burger.is-open span:nth-child(2) {
+	opacity: 0;
+}
+.burger.is-open span:nth-child(3) {
+	transform: translateY(-7px) rotate(-45deg);
+}
+
+/* --- pin filter tabs: pixel arrow pointing into the map --- */
+.pin-tab {
+	--tab-fill: #f5b700;
+	position: relative;
+	width: 44px;
+	height: 36px;
+	cursor: pointer;
+	background: #0a0a0a;
+	clip-path: polygon(
+		0 0,
+		66% 0,
+		66% 18%,
+		84% 18%,
+		84% 38%,
+		100% 38%,
+		100% 62%,
+		84% 62%,
+		84% 82%,
+		66% 82%,
+		66% 100%,
+		0 100%
+	);
+	transition:
+		transform 140ms ease,
+		filter 140ms ease;
+}
+.pin-tab::before {
+	content: "";
+	position: absolute;
+	inset: 3px;
+	background: var(--tab-fill);
+	clip-path: polygon(
+		0 0,
+		66% 0,
+		66% 18%,
+		84% 18%,
+		84% 38%,
+		100% 38%,
+		100% 62%,
+		84% 62%,
+		84% 82%,
+		66% 82%,
+		66% 100%,
+		0 100%
+	);
+	transition: filter 140ms ease;
+}
+.pin-tab:hover {
+	transform: translateX(3px);
+	filter: drop-shadow(
+		0 0 6px color-mix(in srgb, var(--tab-fill) 70%, transparent)
+	);
+}
+.pin-tab.is-off {
+	opacity: 0.35;
+}
+.pin-tab__glyph {
+	position: absolute;
+	inset: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	padding-right: 12px;
+	z-index: 1;
+	color: #0a0a0a;
+}
+
+/* --- title plaque --- */
+.title-plaque-text {
+	text-shadow:
+		0 2px 0 rgba(0, 0, 0, 0.6),
+		0 0 12px rgba(245, 183, 0, 0.35);
+}
+.title-badge {
+	box-shadow:
+		0 0 0 3px #0a0a0a,
+		0 0 0 5px #f5b700,
+		0 3px 0 5px rgba(0, 0, 0, 0.45);
+}

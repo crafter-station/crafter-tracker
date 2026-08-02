@@ -3,13 +3,14 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { PinCard } from "@/components/pin-card";
 import { PinMarker } from "@/components/pin-marker";
+import { Radar } from "@/components/radar";
 import {
 	Map as MapCanvas,
 	MapMarker,
 	type MapRef,
 	MarkerContent,
 } from "@/components/ui/map";
-import { getPins, type Pin } from "@/lib/tracker";
+import { getPins, type Pin, type PinType } from "@/lib/tracker";
 
 const PINS = getPins();
 
@@ -17,9 +18,20 @@ const PINS = getPins();
 const DARK_STYLE =
 	"https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json";
 
-export function TrackerMap({ extraPins = [] }: { extraPins?: Pin[] }) {
+export function TrackerMap({
+	extraPins = [],
+	hiddenTypes = [],
+}: {
+	extraPins?: Pin[];
+	hiddenTypes?: PinType[];
+}) {
 	const mapRef = useRef<MapRef | null>(null);
 	const [selected, setSelected] = useState<Pin | null>(null);
+
+	const allPins = [...PINS, ...extraPins].filter(
+		(p) => p.lat != null && p.lng != null,
+	);
+	const visiblePins = allPins.filter((p) => !hiddenTypes.includes(p.pinType));
 
 	const flyToPin = useCallback((pin: Pin) => {
 		const map = mapRef.current;
@@ -55,24 +67,26 @@ export function TrackerMap({ extraPins = [] }: { extraPins?: Pin[] }) {
 				viewport={{ center: [-67, -14], zoom: 2.5 }}
 				className="h-full w-full"
 			>
-				{[...PINS, ...extraPins]
-					.filter((p) => p.lat != null && p.lng != null)
-					.map((pin) => (
-						<MapMarker
-							key={pin.id}
-							longitude={pin.lng as number}
-							latitude={pin.lat as number}
-							onClick={() => flyToPin(pin)}
-						>
-							<MarkerContent>
-								<PinMarker pin={pin} />
-							</MarkerContent>
-						</MapMarker>
-					))}
+				{visiblePins.map((pin) => (
+					<MapMarker
+						key={pin.id}
+						longitude={pin.lng as number}
+						latitude={pin.lat as number}
+						onClick={() => flyToPin(pin)}
+					>
+						<MarkerContent>
+							<PinMarker pin={pin} />
+						</MarkerContent>
+					</MapMarker>
+				))}
 			</MapCanvas>
 
+			<div className="graticule absolute inset-0 z-[5]" aria-hidden />
+
+			<Radar mapRef={mapRef} pins={visiblePins} />
+
 			{selected && (
-				<div className="absolute left-1/2 top-4 z-20 -translate-x-1/2">
+				<div className="card-pop absolute left-1/2 top-4 z-20 -translate-x-1/2">
 					<PinCard pin={selected} onClose={() => setSelected(null)} />
 				</div>
 			)}
