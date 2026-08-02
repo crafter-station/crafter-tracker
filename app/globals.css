@@ -1,26 +1,337 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+	--color-background: var(--background);
+	--color-foreground: var(--foreground);
+	--font-sans: var(--font-sans);
+	--font-mono: var(--font-geist-mono);
+	--font-heading: var(--font-sans);
+	--color-sidebar-ring: var(--sidebar-ring);
+	--color-sidebar-border: var(--sidebar-border);
+	--color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+	--color-sidebar-accent: var(--sidebar-accent);
+	--color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+	--color-sidebar-primary: var(--sidebar-primary);
+	--color-sidebar-foreground: var(--sidebar-foreground);
+	--color-sidebar: var(--sidebar);
+	--color-chart-5: var(--chart-5);
+	--color-chart-4: var(--chart-4);
+	--color-chart-3: var(--chart-3);
+	--color-chart-2: var(--chart-2);
+	--color-chart-1: var(--chart-1);
+	--color-ring: var(--ring);
+	--color-input: var(--input);
+	--color-border: var(--border);
+	--color-destructive: var(--destructive);
+	--color-accent-foreground: var(--accent-foreground);
+	--color-accent: var(--accent);
+	--color-muted-foreground: var(--muted-foreground);
+	--color-muted: var(--muted);
+	--color-secondary-foreground: var(--secondary-foreground);
+	--color-secondary: var(--secondary);
+	--color-primary-foreground: var(--primary-foreground);
+	--color-primary: var(--primary);
+	--color-popover-foreground: var(--popover-foreground);
+	--color-popover: var(--popover);
+	--color-card-foreground: var(--card-foreground);
+	--color-card: var(--card);
+	--radius-sm: calc(var(--radius) * 0.6);
+	--radius-md: calc(var(--radius) * 0.8);
+	--radius-lg: var(--radius);
+	--radius-xl: calc(var(--radius) * 1.4);
+	--radius-2xl: calc(var(--radius) * 1.8);
+	--radius-3xl: calc(var(--radius) * 2.2);
+	--radius-4xl: calc(var(--radius) * 2.6);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+:root {
+	--background: oklch(1 0 0);
+	--foreground: oklch(0.145 0 0);
+	--card: oklch(1 0 0);
+	--card-foreground: oklch(0.145 0 0);
+	--popover: oklch(1 0 0);
+	--popover-foreground: oklch(0.145 0 0);
+	--primary: oklch(0.205 0 0);
+	--primary-foreground: oklch(0.985 0 0);
+	--secondary: oklch(0.97 0 0);
+	--secondary-foreground: oklch(0.205 0 0);
+	--muted: oklch(0.97 0 0);
+	--muted-foreground: oklch(0.556 0 0);
+	--accent: oklch(0.97 0 0);
+	--accent-foreground: oklch(0.205 0 0);
+	--destructive: oklch(0.577 0.245 27.325);
+	--border: oklch(0.922 0 0);
+	--input: oklch(0.922 0 0);
+	--ring: oklch(0.708 0 0);
+	--chart-1: oklch(0.87 0 0);
+	--chart-2: oklch(0.556 0 0);
+	--chart-3: oklch(0.439 0 0);
+	--chart-4: oklch(0.371 0 0);
+	--chart-5: oklch(0.269 0 0);
+	--radius: 0.625rem;
+	--sidebar: oklch(0.985 0 0);
+	--sidebar-foreground: oklch(0.145 0 0);
+	--sidebar-primary: oklch(0.205 0 0);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.97 0 0);
+	--sidebar-accent-foreground: oklch(0.205 0 0);
+	--sidebar-border: oklch(0.922 0 0);
+	--sidebar-ring: oklch(0.708 0 0);
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.dark {
+	--background: oklch(0.145 0 0);
+	--foreground: oklch(0.985 0 0);
+	--card: oklch(0.205 0 0);
+	--card-foreground: oklch(0.985 0 0);
+	--popover: oklch(0.205 0 0);
+	--popover-foreground: oklch(0.985 0 0);
+	--primary: oklch(0.922 0 0);
+	--primary-foreground: oklch(0.205 0 0);
+	--secondary: oklch(0.269 0 0);
+	--secondary-foreground: oklch(0.985 0 0);
+	--muted: oklch(0.269 0 0);
+	--muted-foreground: oklch(0.708 0 0);
+	--accent: oklch(0.269 0 0);
+	--accent-foreground: oklch(0.985 0 0);
+	--destructive: oklch(0.704 0.191 22.216);
+	--border: oklch(1 0 0 / 10%);
+	--input: oklch(1 0 0 / 15%);
+	--ring: oklch(0.556 0 0);
+	--chart-1: oklch(0.87 0 0);
+	--chart-2: oklch(0.556 0 0);
+	--chart-3: oklch(0.439 0 0);
+	--chart-4: oklch(0.371 0 0);
+	--chart-5: oklch(0.269 0 0);
+	--sidebar: oklch(0.205 0 0);
+	--sidebar-foreground: oklch(0.985 0 0);
+	--sidebar-primary: oklch(0.488 0.243 264.376);
+	--sidebar-primary-foreground: oklch(0.985 0 0);
+	--sidebar-accent: oklch(0.269 0 0);
+	--sidebar-accent-foreground: oklch(0.985 0 0);
+	--sidebar-border: oklch(1 0 0 / 10%);
+	--sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		@apply bg-background text-foreground;
+	}
+	html {
+		@apply font-sans;
+	}
+	.maplibregl-popup-content {
+		@apply bg-transparent! shadow-none! p-0! rounded-none!;
+	}
+	.maplibregl-popup-tip {
+		@apply hidden!;
+	}
+	.maplibregl-ctrl-attrib {
+		@apply bg-background! text-muted-foreground! border-border! rounded-md! border! shadow-sm!;
+	}
+	.maplibregl-ctrl-attrib a {
+		@apply text-muted-foreground!;
+	}
+	.maplibregl-ctrl-attrib a:hover {
+		@apply text-foreground!;
+	}
+	.maplibregl-ctrl-attrib-button {
+		@apply bg-transparent! dark:invert;
+	}
+}
+/* ============ CRAFTER TRACKER 8-BIT THEME ============ */
+
+:root {
+	--ct-gold: #f5b700;
+	--ct-gold-dark: #e09000;
+	--ct-bg: #0a0a0a;
+	--ct-panel: #111111;
+	--ct-cream: #f5e9c8;
+	--ct-green: #00ff50;
+	--ct-red: #ff4040;
+	--ct-cyan: #96e0f7;
+}
+
+.font-pixel {
+	font-family: var(--font-pixel), monospace;
+}
+.font-pixel-body {
+	font-family: var(--font-pixel-body), monospace;
+}
+
+.pixelated {
+	image-rendering: pixelated;
+}
+
+/* --- bitBorder: pixel-stepped corners via clip-path (Sony technique, reimplemented) --- */
+.bit-border {
+	--bb-step: 3px;
+	--bb-frame: var(--ct-gold);
+	--bb-fill: var(--ct-bg);
+	position: relative;
+	isolation: isolate;
+	clip-path: polygon(
+		0 calc(2 * var(--bb-step)),
+		var(--bb-step) calc(2 * var(--bb-step)),
+		var(--bb-step) var(--bb-step),
+		calc(2 * var(--bb-step)) var(--bb-step),
+		calc(2 * var(--bb-step)) 0,
+		calc(100% - 2 * var(--bb-step)) 0,
+		calc(100% - 2 * var(--bb-step)) var(--bb-step),
+		calc(100% - var(--bb-step)) var(--bb-step),
+		calc(100% - var(--bb-step)) calc(2 * var(--bb-step)),
+		100% calc(2 * var(--bb-step)),
+		100% calc(100% - 2 * var(--bb-step)),
+		calc(100% - var(--bb-step)) calc(100% - 2 * var(--bb-step)),
+		calc(100% - var(--bb-step)) calc(100% - var(--bb-step)),
+		calc(100% - 2 * var(--bb-step)) calc(100% - var(--bb-step)),
+		calc(100% - 2 * var(--bb-step)) 100%,
+		calc(2 * var(--bb-step)) 100%,
+		calc(2 * var(--bb-step)) calc(100% - var(--bb-step)),
+		var(--bb-step) calc(100% - var(--bb-step)),
+		var(--bb-step) calc(100% - 2 * var(--bb-step)),
+		0 calc(100% - 2 * var(--bb-step))
+	);
+	background: var(--bb-frame);
+}
+.bit-border::before {
+	content: "";
+	position: absolute;
+	inset: var(--bb-step);
+	background: var(--bb-fill);
+	z-index: -1;
+	clip-path: polygon(
+		0 var(--bb-step),
+		var(--bb-step) var(--bb-step),
+		var(--bb-step) 0,
+		calc(100% - var(--bb-step)) 0,
+		calc(100% - var(--bb-step)) var(--bb-step),
+		100% var(--bb-step),
+		100% calc(100% - var(--bb-step)),
+		calc(100% - var(--bb-step)) calc(100% - var(--bb-step)),
+		calc(100% - var(--bb-step)) 100%,
+		var(--bb-step) 100%,
+		var(--bb-step) calc(100% - var(--bb-step)),
+		0 calc(100% - var(--bb-step))
+	);
+}
+
+/* --- CRT scanlines overlay --- */
+.scanlines::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	pointer-events: none;
+	z-index: 50;
+	background: repeating-linear-gradient(
+		to bottom,
+		transparent 0,
+		transparent 3px,
+		rgba(0, 0, 0, 0.13) 3px,
+		rgba(0, 0, 0, 0.13) 4px
+	);
+}
+
+/* --- boot lines --- */
+@keyframes boot-line-in {
+	0% {
+		opacity: 0;
+		transform: translateY(4px);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+.boot-line {
+	animation: boot-line-in 120ms steps(2, end) both;
+}
+
+@keyframes cursor-blink {
+	0%,
+	100% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+}
+.blink {
+	animation: cursor-blink 800ms steps(1, end) infinite;
+}
+
+/* --- ticker marquee --- */
+@keyframes ticker-scroll {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-50%);
+	}
+}
+.ticker-track {
+	animation: ticker-scroll 22s linear infinite;
+}
+
+/* --- pins --- */
+@keyframes pin-glow-pulse {
+	0%,
+	100% {
+		filter: drop-shadow(0 0 1px rgba(245, 183, 0, 0.6))
+			drop-shadow(0 0 3px rgba(245, 183, 0, 0.3));
+		transform: scale(1);
+	}
+	50% {
+		filter: drop-shadow(0 0 3px rgba(245, 183, 0, 0.95))
+			drop-shadow(0 0 6px rgba(245, 183, 0, 0.6));
+		transform: scale(1.06);
+	}
+}
+.pin-highlighted {
+	animation: pin-glow-pulse 1.8s ease-in-out infinite;
+}
+
+@keyframes drop-pin-wave {
+	0% {
+		transform: translate(-50%, -50%) scale(0.35);
+		opacity: 1;
+	}
+	80%,
+	100% {
+		transform: translate(-50%, -50%) scale(4.2);
+		opacity: 0;
+	}
+}
+.drop-wave {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	width: 100%;
+	height: 100%;
+	border: 2px solid var(--ct-cream);
+	border-radius: 9999px;
+	pointer-events: none;
+	animation: drop-pin-wave 2.4s ease-out infinite;
+}
+.drop-wave--b {
+	animation-delay: 1.2s;
+}
+
+/* map attribution: keep readable but tiny over dark bg.
+   !important needed: maplibre injects its own inline-priority styles. */
+.maplibregl-ctrl-attrib {
+	font-size: 10px;
+	/* biome-ignore lint/complexity/noImportantStyles: overrides maplibre's injected stylesheet */
+	background: rgba(10, 10, 10, 0.7) !important;
+	color: #888;
+}
+.maplibregl-ctrl-attrib a {
+	color: #aaa;
 }

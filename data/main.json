@@ -1,0 +1,180 @@
+{
+	"init": {
+		"general": {
+			"header": { "title": "CRAFTER TRACKER" },
+			"map2D": {
+				"startView": "worldmap",
+				"center": { "lat": -5.0, "lng": -70.0 },
+				"zoom": 3
+			}
+		},
+		"tickerMessages": {
+			"appLoading": "CARGANDO",
+			"preloaderTapToLaunch": "TOCA PARA INICIAR",
+			"preloaderSelectSoundOption": "SELECCIONA UNA OPCIÓN DE SONIDO",
+			"liveMapShare": "REPORTA TU SHIP EN X · @CRAFTERSTATION · COOKING HOY, SHIPPED MAÑANA"
+		},
+		"preloader": {
+			"lines": [
+				"INICIALIZANDO CRAFTER TRACKER v1.0.0...",
+				"INICIANDO SERVICIOS PRINCIPALES [OK]",
+				"INICIALIZANDO MOTOR DE RENDERIZADO DEL MAPA...",
+				"CARGANDO RECURSOS BASE: INTERFAZ [OK]",
+				"CARGANDO RECURSOS BASE: MÓDULO DE TICKER [OK]",
+				"INICIANDO BUS DE EVENTOS [OK]",
+				"CALIBRANDO MOTOR DE SPRITES [OK]",
+				"SIRVIENDO CODE BREW [OK]",
+				"CONECTANDO A 900+ CRAFTERS [OK]",
+				"INDEXANDO SHIPS DE LA COMUNIDAD...",
+				"DETECTANDO SCOPE CREEP [ELIMINADO]",
+				"VERIFICANDO REGISTRO DE FUENTES [OK]",
+				"SINCRONIZANDO CALENDARIO LUMA [OK]",
+				"ESCANEANDO LATAM DE PUNTA A PUNTA...",
+				"RADAR DE SHIPPING EN LÍNEA [OK]",
+				"TODOS LOS SISTEMAS OPERATIVOS."
+			]
+		},
+		"pinCards": {
+			"viewShipText": "VER SHIP",
+			"viewCookingText": "VER QUIÉN COCINA",
+			"viewEventText": "VER EVENTO",
+			"viewDropText": "VER ANUNCIO"
+		},
+		"legend": {
+			"shipped": "SHIP CONFIRMADO",
+			"cooking": "COOKING",
+			"event": "EVENTO",
+			"drop": "ANUNCIO"
+		}
+	},
+	"pins": [
+		{
+			"id": "peru-ai-hackathon-2026",
+			"pinType": "drop",
+			"lat": -12.0464,
+			"lng": -77.0428,
+			"title": "peru.ai-hackathon.co 2026",
+			"displayLocation": "Lima, Perú",
+			"description": "Vuelve el hackathon de IA más grande del Perú. Nueva edición 2026.",
+			"url": "https://peru.ai-hackathon.co",
+			"highlighted": true,
+			"createdAt": "2026-08-01T12:00:00.000Z"
+		},
+		{
+			"id": "code-brew-lima-7",
+			"pinType": "event",
+			"lat": -12.1211,
+			"lng": -77.0297,
+			"title": "Code Brew Lima #7",
+			"displayLocation": "Miraflores, Lima",
+			"description": "Meetup mensual de Crafter Station. Café, demos y gente que shippea.",
+			"url": "https://codebrew.tech",
+			"createdAt": "2026-07-28T12:00:00.000Z"
+		},
+		{
+			"id": "code-brew-bogota-2",
+			"pinType": "event",
+			"lat": 4.711,
+			"lng": -74.0721,
+			"title": "Code Brew Bogotá",
+			"displayLocation": "Bogotá, Colombia",
+			"description": "La sede cafetera del Code Brew. Colombia shippea con café de verdad.",
+			"url": "https://codebrew.tech",
+			"createdAt": "2026-07-20T12:00:00.000Z"
+		},
+		{
+			"id": "code-brew-madrid-1",
+			"pinType": "event",
+			"lat": 40.4168,
+			"lng": -3.7038,
+			"title": "Code Brew Madrid",
+			"displayLocation": "Madrid, España",
+			"description": "El Code Brew cruza el charco.",
+			"url": "https://codebrew.tech",
+			"createdAt": "2026-07-15T12:00:00.000Z"
+		},
+		{
+			"id": "sheships-2026",
+			"pinType": "shipped",
+			"lat": -12.0725,
+			"lng": -77.0824,
+			"title": "sheships.org",
+			"displayLocation": "Lima + Bogotá + remoto",
+			"description": "48h global hackathon por el Día Internacional de la Mujer. ~370 participantes.",
+			"shipUrl": "https://sheships.org",
+			"xHandle": "@crafter_station",
+			"createdAt": "2026-03-08T12:00:00.000Z"
+		},
+		{
+			"id": "tinte",
+			"pinType": "shipped",
+			"lat": -34.6037,
+			"lng": -58.3816,
+			"title": "tinte — agent-native design system infra",
+			"displayLocation": "Buenos Aires, Argentina",
+			"description": "584 stars. Temas para VSCode, shadcn y más, ahora infraestructura agent-native.",
+			"shipUrl": "https://github.com/Railly/tinte",
+			"repoUrl": "https://github.com/Railly/tinte",
+			"xHandle": "@raillyhugo",
+			"createdAt": "2026-07-10T12:00:00.000Z"
+		},
+		{
+			"id": "elements",
+			"pinType": "shipped",
+			"lat": -12.0464,
+			"lng": -77.0428,
+			"title": "elements — full-stack shadcn/ui blocks",
+			"displayLocation": "Lima, Perú",
+			"description": "489 stars. Bloques full-stack listos para producción.",
+			"shipUrl": "https://tryelements.dev",
+			"repoUrl": "https://github.com/crafter-station/elements",
+			"xHandle": "@crafter_station",
+			"createdAt": "2026-06-20T12:00:00.000Z"
+		},
+		{
+			"id": "hack0",
+			"pinType": "shipped",
+			"lat": -12.0564,
+			"lng": -77.0328,
+			"title": "hack0 — mapa del ecosistema tech peruano",
+			"displayLocation": "Lima, Perú",
+			"description": "El antecesor espiritual de este tracker.",
+			"shipUrl": "https://hack0.dev",
+			"xHandle": "@crafter_station",
+			"createdAt": "2026-05-15T12:00:00.000Z"
+		},
+		{
+			"id": "cooking-arequipa-1",
+			"pinType": "cooking",
+			"lat": -16.409,
+			"lng": -71.5375,
+			"title": "Spotted: algo se cocina en Arequipa",
+			"displayLocation": "Arequipa, Perú",
+			"description": "Un crafter reporta que está construyendo. Sin demo todavía. ¿Confirmas?",
+			"xHandle": "@crafter_station",
+			"createdAt": "2026-08-01T18:00:00.000Z"
+		},
+		{
+			"id": "cooking-medellin-1",
+			"pinType": "cooking",
+			"lat": 6.2442,
+			"lng": -75.5812,
+			"title": "Spotted: side project en Medellín",
+			"displayLocation": "Medellín, Colombia",
+			"description": "Rumores de un CLI en construcción. El pin se vuelve verde con el link.",
+			"xHandle": "@crafter_station",
+			"createdAt": "2026-07-30T18:00:00.000Z"
+		},
+		{
+			"id": "cooking-cdmx-1",
+			"pinType": "cooking",
+			"lat": 19.4326,
+			"lng": -99.1332,
+			"title": "Spotted: agente en CDMX",
+			"displayLocation": "Ciudad de México",
+			"description": "Alguien entrena un agente. Cooking desde hace 3 días.",
+			"xHandle": "@crafter_station",
+			"createdAt": "2026-07-29T18:00:00.000Z"
+		}
+	]
+}
