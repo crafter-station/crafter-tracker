@@ -47,7 +47,7 @@ export function WelcomeScreen({ onDone }: { onDone: () => void }) {
 	const start = (withSound: boolean) => {
 		if (withSound) {
 			sound.enable();
-			sound.play("jingle", 0.5);
+			sound.play("jingle", 0.22);
 			setTimeout(() => sound.say("welcome"), 1400);
 		}
 		onDone();
