@@ -137,30 +137,32 @@ export default function Home() {
 				</div>
 
 				{/* menu button on the band, top-left corner */}
-				<button
-					type="button"
-					aria-label={menuState === "open" ? "Cerrar menú" : "Abrir menú"}
-					onClick={() =>
-						setMenuState((s) => (s === "open" ? "closing" : "open"))
-					}
-					className="bit-border absolute left-2 top-2 z-50 flex h-10 w-10 cursor-pointer items-center justify-center hover:opacity-85 sm:h-11 sm:w-11"
-					style={
-						{
-							"--bb-step": "2px",
-							"--bb-frame": "#f5b700",
-							"--bb-fill": "#0a0a0a",
-						} as React.CSSProperties
-					}
-				>
-					<span
-						className={`burger ${menuState === "open" ? "is-open" : ""}`}
-						aria-hidden
+				{booted && (
+					<button
+						type="button"
+						aria-label={menuState === "open" ? "Cerrar menú" : "Abrir menú"}
+						onClick={() =>
+							setMenuState((s) => (s === "open" ? "closing" : "open"))
+						}
+						className="bit-border absolute left-2 top-2 z-50 flex h-10 w-10 cursor-pointer items-center justify-center hover:opacity-85 sm:h-11 sm:w-11"
+						style={
+							{
+								"--bb-step": "2px",
+								"--bb-frame": "#f5b700",
+								"--bb-fill": "#0a0a0a",
+							} as React.CSSProperties
+						}
 					>
-						<span />
-						<span />
-						<span />
-					</span>
-				</button>
+						<span
+							className={`burger ${menuState === "open" ? "is-open" : ""}`}
+							aria-hidden
+						>
+							<span />
+							<span />
+							<span />
+						</span>
+					</button>
+				)}
 
 				{/* mascot badge, top-right corner */}
 				<a
@@ -188,12 +190,17 @@ export default function Home() {
 				</a>
 
 				{/* pin filters on the left band */}
-				<div className="absolute left-1 top-1/3 z-30 hidden flex-col gap-2 sm:flex">
+				<div
+					className={`absolute left-1 top-1/3 z-30 hidden flex-col gap-2 sm:flex ${
+						booted ? "" : "pointer-events-none"
+					}`}
+				>
 					{FILTERABLE.map((t) => (
 						<FilterTab
 							key={t}
 							type={t}
 							off={hiddenTypes.includes(t)}
+							inactive={!booted}
 							onToggle={() => toggleType(t)}
 						/>
 					))}
@@ -268,10 +275,12 @@ export default function Home() {
 function FilterTab({
 	type,
 	off,
+	inactive = false,
 	onToggle,
 }: {
 	type: PinType;
 	off: boolean;
+	inactive?: boolean;
 	onToggle: () => void;
 }) {
 	const [spriteMissing, setSpriteMissing] = useState(false);
@@ -291,12 +300,17 @@ function FilterTab({
 				aria-label={`Mostrar/Ocultar ${type}`}
 				aria-pressed={!off}
 				onClick={onToggle}
-				className="cursor-pointer transition-transform duration-150 hover:scale-[1.03]"
+				disabled={inactive}
+				className="cursor-pointer transition-transform duration-150 hover:scale-[1.03] disabled:cursor-default disabled:hover:scale-100"
 			>
 				{/* biome-ignore lint/performance/noImgElement: local sprite tab, swaps like the original filter_white/green */}
 				<img
 					ref={tabImgRef}
-					src={off ? "/sprites/filter-off.png" : `/sprites/filter-${type}.png`}
+					src={
+						off || inactive
+							? "/sprites/filter-off.png"
+							: `/sprites/filter-${type}.png`
+					}
 					alt=""
 					width={50}
 					height={40}
