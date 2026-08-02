@@ -3,12 +3,12 @@
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 import { ActivityLog } from "@/components/activity-log";
-import { BootScreen } from "@/components/boot-screen";
 import { Crafternaut } from "@/components/crafternaut";
 import { HelpPanel } from "@/components/help-panel";
 import { MissionLog } from "@/components/mission-log";
 import { NavDrawer } from "@/components/nav-drawer";
 import { Ticker } from "@/components/ticker";
+import { WelcomeScreen } from "@/components/welcome-screen";
 import mainData from "@/data/main.json";
 import { sound } from "@/lib/sound";
 import { PIN_COLORS, PIN_GLYPHS, type Pin, type PinType } from "@/lib/tracker";
@@ -81,8 +81,6 @@ export default function Home() {
 
 	return (
 		<main className="relative h-dvh bg-[#06060a] px-2 pt-5 pb-5 sm:px-5 sm:pt-7 sm:pb-7">
-			{!booted && <BootScreen onDone={() => setBooted(true)} />}
-
 			{/* console band */}
 			<div
 				className="bit-border relative h-full"
@@ -110,6 +108,8 @@ export default function Home() {
 				>
 					<div className="absolute inset-[6px] overflow-hidden">
 						<TrackerMap extraPins={lumaPins} hiddenTypes={hiddenTypes} />
+
+						{!booted && <WelcomeScreen onDone={() => setBooted(true)} />}
 
 						{/* rulers */}
 						<div className="ruler-h pointer-events-none absolute left-14 right-14 top-1 z-10 opacity-70" />
@@ -204,7 +204,9 @@ export default function Home() {
 
 				{/* centered ticker on the bottom band; mute hangs at its right without shifting it */}
 				<div className="absolute bottom-[14px] left-1/2 z-20 w-[min(640px,58%)] -translate-x-1/2 sm:bottom-[18px]">
-					<Ticker />
+					<Ticker
+						staticText={booted ? undefined : "SELECCIONA UNA OPCIÓN DE SONIDO"}
+					/>
 					<button
 						type="button"
 						aria-label={muted ? "Activar sonido" : "Silenciar"}

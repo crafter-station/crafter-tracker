@@ -28,6 +28,7 @@ export function TrackerMap({
 }) {
 	const mapRef = useRef<MapRef | null>(null);
 	const [selected, setSelected] = useState<Pin | null>(null);
+	const swayRef = useRef(1);
 
 	const allPins = [...PINS, ...extraPins].filter(
 		(p) => p.lat != null && p.lng != null,
@@ -40,11 +41,16 @@ export function TrackerMap({
 			setSelected(pin);
 			return;
 		}
+		// Aggressive dive to the epicenter. The alternating lateral offset
+		// guarantees perceptible camera motion even when re-clicking pins
+		// that share (or converge on) the same spot.
+		swayRef.current = -swayRef.current;
 		map.flyTo({
 			center: [pin.lng, pin.lat],
-			zoom: Math.max(map.getZoom(), 5.5),
-			speed: 1.4,
-			curve: 1.6,
+			zoom: Math.max(map.getZoom() + 1.5, 7.5),
+			offset: [swayRef.current * 90, 50],
+			speed: 1.7,
+			curve: 1.8,
 			essential: true,
 		});
 		setSelected(pin);

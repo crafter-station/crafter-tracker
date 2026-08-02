@@ -630,3 +630,51 @@
 		0 0 0 5px #f5b700,
 		0 3px 0 5px rgba(0, 0, 0, 0.45);
 }
+
+/* --- welcome screen: floating mascot, twinkling stars, eq bars --- */
+@keyframes float-y {
+	0%,
+	100% {
+		transform: translateY(0);
+	}
+	50% {
+		transform: translateY(-10px);
+	}
+}
+.float-y {
+	animation: float-y 3.2s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+	0%,
+	100% {
+		opacity: 0.15;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+.star {
+	position: absolute;
+	width: 3px;
+	height: 3px;
+	background: #f5e9c8;
+	animation: twinkle 2.4s steps(2, end) infinite;
+}
+
+@keyframes eq-bounce {
+	0%,
+	100% {
+		transform: scaleY(0.3);
+	}
+	50% {
+		transform: scaleY(1);
+	}
+}
+.eq-bar {
+	width: 6px;
+	height: 14px;
+	background: #f5b700;
+	transform-origin: bottom;
+	animation: eq-bounce 900ms steps(3, end) infinite;
+}
