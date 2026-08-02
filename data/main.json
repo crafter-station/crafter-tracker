@@ -51,55 +51,57 @@
 			"cooking": "COOKING",
 			"event": "EVENTO",
 			"drop": "ANUNCIO",
-			"crafter": "CRAFTER"
+			"crafter": "CRAFTER",
+			"hack0": "EVENTO HACK0"
+		},
+		"missionLog": {
+			"title": "BITÁCORA DE MISIÓN v1.0",
+			"intro": "Todo crafter que shippea se cruza con estos enemigos. Los tengo fichados. Si ves uno, no negocies: shippea igual.",
+			"villains": [
+				{
+					"id": "scope-creep",
+					"name": "SCOPE CREEP",
+					"sprite": "/sprites/villain-scope-creep.png",
+					"lore": "Se alimenta de 'ya que estamos, agreguemos...'. Cada tentáculo es una feature que nadie pidió. Debilidad: un MVP bien recortado."
+				},
+				{
+					"id": "deadline",
+					"name": "EL DEADLINE",
+					"sprite": "/sprites/villain-deadline.png",
+					"lore": "Avanza aunque no lo mires. Su armadura gotea arena: cada grano es una hora que no vuelve. Debilidad: shippear antes de que llegue."
+				},
+				{
+					"id": "tutorial-hell",
+					"name": "TUTORIAL HELL",
+					"sprite": "/sprites/villain-tutorial-hell.png",
+					"lore": "Un portal infinito de videos de 4 horas. Prometé que este es el último. Mentira. Debilidad: construir algo propio, aunque salga feo."
+				},
+				{
+					"id": "vibecoder",
+					"name": "EL VIBECODER",
+					"sprite": "/sprites/villain-vibecoder.png",
+					"lore": "Genera 10.000 líneas que no puede explicar. Su código se disuelve en humo al primer bug. Debilidad: entender lo que shippea."
+				},
+				{
+					"id": "merge-conflict",
+					"name": "MERGE CONFLICT",
+					"sprite": "/sprites/villain-merge-conflict.png",
+					"lore": "Dos cabezas, cero acuerdos. Aparece cuando dos crafters tocan el mismo archivo sin hablarse. Debilidad: PRs chicos y comunicación."
+				},
+				{
+					"id": "unknown",
+					"name": "DESCONOCIDO",
+					"sprite": "/sprites/villain-unknown.png",
+					"lore": "Hay rumores de un nuevo enemigo rondando la comunidad. Si lo ves, repórtalo en X. A este todavía no le encuentro la debilidad."
+				}
+			]
+		},
+		"report": {
+			"ctaText": "REPORTAR",
+			"tweetTemplate": "🟢 SHIPPED / 🔴 COOKING: [tu proyecto] en [tu ciudad] @crafter_station #CrafterTracker"
 		}
 	},
 	"pins": [
-		{
-			"id": "peru-ai-hackathon-2026",
-			"pinType": "drop",
-			"lat": -12.0464,
-			"lng": -77.0428,
-			"title": "peru.ai-hackathon.co 2026",
-			"displayLocation": "Lima, Perú",
-			"description": "Vuelve el hackathon de IA más grande del Perú. Nueva edición 2026.",
-			"url": "https://peru.ai-hackathon.co",
-			"highlighted": true,
-			"createdAt": "2026-08-01T12:00:00.000Z"
-		},
-		{
-			"id": "code-brew-lima-7",
-			"pinType": "event",
-			"lat": -12.1211,
-			"lng": -77.0297,
-			"title": "Code Brew Lima #7",
-			"displayLocation": "Miraflores, Lima",
-			"description": "Meetup mensual de Crafter Station. Café, demos y gente que shippea.",
-			"url": "https://codebrew.tech",
-			"createdAt": "2026-07-28T12:00:00.000Z"
-		},
-		{
-			"id": "code-brew-bogota-2",
-			"pinType": "event",
-			"lat": 4.711,
-			"lng": -74.0721,
-			"title": "Code Brew Bogotá",
-			"displayLocation": "Bogotá, Colombia",
-			"description": "La sede cafetera del Code Brew. Colombia shippea con café de verdad.",
-			"url": "https://codebrew.tech",
-			"createdAt": "2026-07-20T12:00:00.000Z"
-		},
-		{
-			"id": "code-brew-madrid-1",
-			"pinType": "event",
-			"lat": 40.4168,
-			"lng": -3.7038,
-			"title": "Code Brew Madrid",
-			"displayLocation": "Madrid, España",
-			"description": "El Code Brew cruza el charco.",
-			"url": "https://codebrew.tech",
-			"createdAt": "2026-07-15T12:00:00.000Z"
-		},
 		{
 			"id": "sheships-2026",
 			"pinType": "shipped",

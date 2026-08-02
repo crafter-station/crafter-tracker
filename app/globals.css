@@ -176,6 +176,12 @@
 	--bb-frame: var(--ct-gold);
 	--bb-fill: var(--ct-bg);
 	position: relative;
+}
+/* Tailwind's .absolute must win over the relative default above */
+.bit-border.absolute {
+	position: absolute;
+}
+.bit-border {
 	isolation: isolate;
 	clip-path: polygon(
 		0 calc(2 * var(--bb-step)),

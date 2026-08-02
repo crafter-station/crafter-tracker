@@ -48,7 +48,7 @@ export function PinCard({ pin, onClose }: { pin: Pin; onClose: () => void }) {
 			<h3 className="mt-2 font-pixel-body text-[10px] leading-relaxed text-black">
 				{pin.title}
 			</h3>
-			{pin.displayLocation && (
+			{pin.displayLocation && pin.pinType !== "crafter" && (
 				<p className="mt-1 font-pixel-body text-[8px] text-black/60">
 					{pin.displayLocation}
 				</p>
