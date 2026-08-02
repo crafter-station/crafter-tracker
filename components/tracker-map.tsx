@@ -48,7 +48,7 @@ export function TrackerMap({
 		swayRef.current = -swayRef.current;
 		map.flyTo({
 			center: [pin.lng, pin.lat],
-			zoom: 13.5,
+			zoom: 10.8,
 			offset: [swayRef.current * 90, 50],
 			speed: 1.7,
 			curve: 1.8,

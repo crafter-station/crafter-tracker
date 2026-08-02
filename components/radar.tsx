@@ -46,9 +46,11 @@ function bearing(
 export function Radar({
 	mapRef,
 	pins,
+	decorative = false,
 }: {
 	mapRef: React.RefObject<MapRef | null>;
 	pins: Pin[];
+	decorative?: boolean;
 }) {
 	const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -173,50 +175,52 @@ export function Radar({
 				style={{ width: SIZE, height: SIZE }}
 				aria-label="Radar de actividad"
 			/>
-			<div className="absolute -right-3 top-0 flex flex-col gap-2">
-				<button
-					type="button"
-					aria-label="Vista global"
-					onClick={() =>
-						mapRef.current?.flyTo({
-							center: [-67, -14],
-							zoom: 2.5,
-							speed: 1.2,
-						})
-					}
-					className="bit-border flex h-8 w-8 cursor-pointer items-center justify-center font-pixel-body text-[13px] text-black hover:opacity-85"
-					style={
-						{
-							"--bb-step": "2px",
-							"--bb-frame": "#0a0a0a",
-							"--bb-fill": "#f5b700",
-						} as React.CSSProperties
-					}
-				>
-					⊕
-				</button>
-				<button
-					type="button"
-					aria-label="Centrar en Lima"
-					onClick={() =>
-						mapRef.current?.flyTo({
-							center: [-77.0428, -12.0464],
-							zoom: 10.5,
-							speed: 1.2,
-						})
-					}
-					className="bit-border flex h-8 w-8 cursor-pointer items-center justify-center font-pixel-body text-[13px] text-black hover:opacity-85"
-					style={
-						{
-							"--bb-step": "2px",
-							"--bb-frame": "#0a0a0a",
-							"--bb-fill": "#f5b700",
-						} as React.CSSProperties
-					}
-				>
-					◎
-				</button>
-			</div>
+			{!decorative && (
+				<div className="absolute -right-3 top-0 flex flex-col gap-2">
+					<button
+						type="button"
+						aria-label="Vista global"
+						onClick={() =>
+							mapRef.current?.flyTo({
+								center: [-67, -14],
+								zoom: 2.5,
+								speed: 1.2,
+							})
+						}
+						className="bit-border flex h-8 w-8 cursor-pointer items-center justify-center font-pixel-body text-[13px] text-black hover:opacity-85"
+						style={
+							{
+								"--bb-step": "2px",
+								"--bb-frame": "#0a0a0a",
+								"--bb-fill": "#f5b700",
+							} as React.CSSProperties
+						}
+					>
+						⊕
+					</button>
+					<button
+						type="button"
+						aria-label="Centrar en Lima"
+						onClick={() =>
+							mapRef.current?.flyTo({
+								center: [-77.0428, -12.0464],
+								zoom: 10.5,
+								speed: 1.2,
+							})
+						}
+						className="bit-border flex h-8 w-8 cursor-pointer items-center justify-center font-pixel-body text-[13px] text-black hover:opacity-85"
+						style={
+							{
+								"--bb-step": "2px",
+								"--bb-frame": "#0a0a0a",
+								"--bb-fill": "#f5b700",
+							} as React.CSSProperties
+						}
+					>
+						◎
+					</button>
+				</div>
+			)}
 		</div>
 	);
 }
