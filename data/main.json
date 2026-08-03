@@ -97,7 +97,16 @@
 			]
 		},
 		"report": {
-			"ctaText": "REPORTAR",
+			"ctaText": "REPORTAR SHIP",
+			"title": "REPORTAR TU SHIP",
+			"intro": "Cuéntale a la comunidad qué estás construyendo o qué acabas de shippear.",
+			"steps": [
+				"Elige si es SHIPPED (link verificable) o COOKING (aún sin demo).",
+				"Abre X, completa el borrador y publica con @crafter_station y #CrafterTracker."
+			],
+			"templateLabel": "EJEMPLO",
+			"shippedTemplate": "🟢 SHIPPED: [tu proyecto] — [link] en [tu ciudad] @crafter_station #CrafterTracker",
+			"cookingTemplate": "🔴 COOKING: [tu proyecto] en [tu ciudad] — construyendo [qué] @crafter_station #CrafterTracker",
 			"tweetTemplate": "🟢 SHIPPED / 🔴 COOKING: [tu proyecto] en [tu ciudad] @crafter_station #CrafterTracker"
 		}
 	},

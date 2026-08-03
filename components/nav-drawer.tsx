@@ -1,5 +1,7 @@
 "use client";
 
+import type { ReactNode } from "react";
+
 type Item = {
 	label: string;
 	action: () => void;
@@ -7,11 +9,13 @@ type Item = {
 
 export function NavDrawer({
 	items,
+	filters,
 	closing,
 	onClose,
 	onCloseComplete,
 }: {
 	items: Item[];
+	filters?: ReactNode;
 	closing: boolean;
 	onClose: () => void;
 	onCloseComplete: () => void;
@@ -32,7 +36,17 @@ export function NavDrawer({
 					closing ? "drawer-out" : "drawer-in"
 				}`}
 			>
-				<ul className="mt-16 flex flex-col gap-1 px-6">
+				{filters && (
+					<div className="mt-16 px-6 sm:hidden">
+						<p className="mb-2 font-pixel-body text-[8px] text-[#f5e9c8]/50">
+							FILTROS DE MAPA
+						</p>
+						<div className="flex gap-2">{filters}</div>
+					</div>
+				)}
+				<ul
+					className={`flex flex-col gap-1 px-6 ${filters ? "mt-6" : "mt-16"}`}
+				>
 					{items.map((item) => (
 						<li key={item.label}>
 							<button
