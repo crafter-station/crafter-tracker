@@ -19,7 +19,10 @@ export function MissionLog({ onClose }: { onClose: () => void }) {
 
 	useEffect(() => {
 		const t = setTimeout(() => sound.sayVillainById(villains[idx].id), 350);
-		return () => clearTimeout(t);
+		return () => {
+			clearTimeout(t);
+			sound.stopVoice();
+		};
 	}, [idx, villains]);
 
 	return (

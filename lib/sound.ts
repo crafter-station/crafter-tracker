@@ -94,4 +94,12 @@ export const sound = {
 		a.currentTime = 0;
 		a.play().catch(() => {});
 	},
+
+	/** Stop the active voice line (e.g. when closing the Bitácora). */
+	stopVoice() {
+		if (!currentVoice) return;
+		currentVoice.pause();
+		currentVoice.currentTime = 0;
+		currentVoice = null;
+	},
 };
