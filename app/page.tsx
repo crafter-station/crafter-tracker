@@ -1,26 +1,36 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { ActivityLog } from "@/components/activity-log";
 import { Crafternaut } from "@/components/crafternaut";
+import { FilterTab } from "@/components/filter-tab";
 import { HelpPanel } from "@/components/help-panel";
 import { MissionLog } from "@/components/mission-log";
 import { NavDrawer } from "@/components/nav-drawer";
+import { ReportShipPanel } from "@/components/report-ship-panel";
 import { SiteFooter } from "@/components/site-footer";
 import { Ticker } from "@/components/ticker";
 import { TutorialOverlay } from "@/components/tutorial-overlay";
 import { WelcomeScreen } from "@/components/welcome-screen";
 import mainData from "@/data/main.json";
+import { getPinIdFromUrl, setPinIdInUrl } from "@/lib/pin-url";
 import { sound } from "@/lib/sound";
-import { PIN_COLORS, PIN_GLYPHS, type Pin, type PinType } from "@/lib/tracker";
+import {
+	getSoundPreference,
+	isBootComplete,
+	markBootComplete,
+	setSoundPreference,
+} from "@/lib/storage";
+import type { Pin, PinType } from "@/lib/tracker";
 
 const TrackerMap = dynamic(
 	() => import("@/components/tracker-map").then((m) => m.TrackerMap),
 	{ ssr: false },
 );
 
-type Panel = "none" | "activity" | "mission" | "help";
+type Panel = "none" | "activity" | "mission" | "help" | "report";
+type Stage = "checking" | "welcome" | "tutorial" | "initmap" | "live";
 
 const FILTERABLE: PinType[] = ["shipped", "cooking", "hack0"];
 
@@ -31,9 +41,7 @@ const bitDark = {
 } as React.CSSProperties;
 
 export default function Home() {
-	const [stage, setStage] = useState<
-		"welcome" | "tutorial" | "initmap" | "live"
-	>("welcome");
+	const [stage, setStage] = useState<Stage>("checking");
 	const booted = stage === "live";
 	const [panel, setPanel] = useState<Panel>("none");
 	const [menuState, setMenuState] = useState<"closed" | "open" | "closing">(
@@ -41,12 +49,40 @@ export default function Home() {
 	);
 	const [hiddenTypes, setHiddenTypes] = useState<PinType[]>([]);
 	const [lumaPins, setLumaPins] = useState<Pin[]>([]);
-	const [muted, setMuted] = useState(false);
+	const [muted, setMuted] = useState(true);
+	const [focusPinId, setFocusPinId] = useState<string | null>(null);
 
 	const openPanel = (p: Panel) => {
 		sound.play("panel-open", 0.45);
 		setPanel(p);
 	};
+
+	const finishBoot = useCallback((playIntro: boolean) => {
+		markBootComplete();
+		setSoundPreference(sound.isEnabled());
+		if (playIntro) {
+			setStage("initmap");
+			setTimeout(() => {
+				setStage("live");
+				sound.play("jingle", 0.22);
+				setTimeout(() => sound.say("welcome"), 1200);
+			}, 1500);
+		} else {
+			setStage("live");
+		}
+	}, []);
+
+	useEffect(() => {
+		setFocusPinId(getPinIdFromUrl());
+		if (isBootComplete()) {
+			const soundOn = getSoundPreference();
+			if (soundOn) sound.enable();
+			setMuted(!soundOn);
+			setStage("live");
+		} else {
+			setStage("welcome");
+		}
+	}, []);
 
 	useEffect(() => {
 		const onOpenActivity = () => setPanel("activity");
@@ -62,9 +98,10 @@ export default function Home() {
 			.catch(() => {});
 	}, []);
 
-	const reportUrl = `https://x.com/intent/tweet?text=${encodeURIComponent(
-		mainData.init.report.tweetTemplate,
-	)}`;
+	const handlePinFocus = useCallback((id: string | null) => {
+		setFocusPinId(id);
+		setPinIdInUrl(id);
+	}, []);
 
 	const toggleType = (t: PinType) =>
 		setHiddenTypes((h) =>
@@ -75,8 +112,8 @@ export default function Home() {
 		{ label: "REGISTRO DE ACTIVIDAD", action: () => openPanel("activity") },
 		{ label: "BITÁCORA DE MISIÓN", action: () => openPanel("mission") },
 		{
-			label: "REPORTAR SHIP",
-			action: () => window.open(reportUrl, "_blank", "noopener,noreferrer"),
+			label: mainData.init.report.ctaText,
+			action: () => openPanel("report"),
 		},
 		{
 			label: "EL EQUIPO",
@@ -90,10 +127,30 @@ export default function Home() {
 		{ label: "AYUDA", action: () => openPanel("help") },
 	];
 
+	const filterTabs = FILTERABLE.map((t) => (
+		<FilterTab
+			key={t}
+			type={t}
+			off={hiddenTypes.includes(t)}
+			inactive={!booted}
+			onToggle={() => toggleType(t)}
+		/>
+	));
+
+	const mobileFilterTabs = FILTERABLE.map((t) => (
+		<FilterTab
+			key={t}
+			type={t}
+			compact
+			off={hiddenTypes.includes(t)}
+			inactive={!booted}
+			onToggle={() => toggleType(t)}
+		/>
+	));
+
 	return (
 		<main className="flex h-dvh flex-col bg-[#06060a]">
 			<div className="relative min-h-0 flex-1 px-2 pt-5 pb-5 sm:px-5 sm:pt-6 sm:pb-6">
-				{/* console band */}
 				<div
 					className="bit-border relative h-full"
 					style={
@@ -104,11 +161,9 @@ export default function Home() {
 						} as React.CSSProperties
 					}
 				>
-					{/* band texture + raised bevel */}
 					<div className="scanlines pointer-events-none absolute inset-0" />
 					<div className="band-bevel" aria-hidden />
 
-					{/* screen (map) */}
 					<div
 						className="bit-border absolute inset-x-4 top-6 bottom-14 sm:inset-x-6 sm:top-7 sm:bottom-[72px]"
 						style={
@@ -120,24 +175,26 @@ export default function Home() {
 						}
 					>
 						<div className="absolute inset-[6px] overflow-hidden">
-							<TrackerMap extraPins={lumaPins} hiddenTypes={hiddenTypes} />
+							{(stage === "live" || stage === "initmap") && (
+								<TrackerMap
+									extraPins={lumaPins}
+									hiddenTypes={hiddenTypes}
+									focusPinId={focusPinId}
+									onPinFocus={handlePinFocus}
+								/>
+							)}
 
 							<div className="screen-depth" aria-hidden />
+
+							{stage === "checking" && (
+								<div className="absolute inset-0 z-40 bg-[#0a0a0a]" />
+							)}
 
 							{stage === "welcome" && (
 								<WelcomeScreen onDone={() => setStage("tutorial")} />
 							)}
 							{stage === "tutorial" && (
-								<TutorialOverlay
-									onClose={() => {
-										setStage("initmap");
-										setTimeout(() => {
-											setStage("live");
-											sound.play("jingle", 0.22);
-											setTimeout(() => sound.say("welcome"), 1200);
-										}, 1500);
-									}}
-								/>
+								<TutorialOverlay onClose={() => finishBoot(true)} />
 							)}
 							{stage === "initmap" && (
 								<div className="absolute inset-0 z-40 flex items-center justify-center bg-[#0a0a0a]">
@@ -147,7 +204,6 @@ export default function Home() {
 								</div>
 							)}
 
-							{/* rulers */}
 							<div className="ruler-h pointer-events-none absolute left-14 right-14 top-1 z-10 opacity-70" />
 							<div className="ruler-v pointer-events-none absolute bottom-14 left-1 top-14 z-10 opacity-70" />
 
@@ -163,18 +219,28 @@ export default function Home() {
 							{panel === "help" && (
 								<HelpPanel onClose={() => setPanel("none")} />
 							)}
+							{panel === "report" && (
+								<ReportShipPanel onClose={() => setPanel("none")} />
+							)}
 							{menuState !== "closed" && (
 								<NavDrawer
 									items={navItems}
+									filters={mobileFilterTabs}
 									closing={menuState === "closing"}
 									onClose={() => setMenuState("closing")}
 									onCloseComplete={() => setMenuState("closed")}
 								/>
 							)}
+
+							{/* mobile pin filters */}
+							{booted && (
+								<div className="absolute bottom-3 left-2 z-30 flex gap-1 sm:hidden">
+									{mobileFilterTabs}
+								</div>
+							)}
 						</div>
 					</div>
 
-					{/* menu button on the band, top-left corner */}
 					{booted && (
 						<button
 							type="button"
@@ -202,13 +268,12 @@ export default function Home() {
 						</button>
 					)}
 
-					{/* mascot badge, top-right corner */}
 					<a
 						href="https://crafterstation.com"
 						target="_blank"
 						rel="noopener noreferrer"
 						aria-label="Crafter Station"
-						className="bit-border absolute right-2 top-2 z-30 hidden h-11 w-11 items-center justify-center hover:opacity-85 sm:flex"
+						className="bit-border absolute right-2 top-2 z-30 flex h-10 w-10 items-center justify-center hover:opacity-85 sm:h-11 sm:w-11"
 						style={
 							{
 								"--bb-step": "2px",
@@ -227,27 +292,16 @@ export default function Home() {
 						/>
 					</a>
 
-					{/* pin filters on the left band */}
 					<div
 						className={`absolute left-1 top-1/3 z-30 hidden flex-col gap-2 sm:flex ${
 							booted ? "" : "pointer-events-none"
 						}`}
 					>
-						{FILTERABLE.map((t) => (
-							<FilterTab
-								key={t}
-								type={t}
-								off={hiddenTypes.includes(t)}
-								inactive={!booted}
-								onToggle={() => toggleType(t)}
-							/>
-						))}
+						{filterTabs}
 					</div>
 
-					{/* mascot standing on the bottom band, left of the centered ticker */}
 					<Crafternaut />
 
-					{/* centered ticker on the bottom band; mute hangs at its right without shifting it */}
 					<div className="absolute bottom-[14px] left-1/2 z-20 w-[min(640px,58%)] -translate-x-1/2 sm:bottom-[18px]">
 						<Ticker
 							staticText={
@@ -255,7 +309,7 @@ export default function Home() {
 									? "SELECCIONA UNA OPCIÓN DE SONIDO"
 									: stage === "tutorial"
 										? "SALTAR"
-										: stage === "initmap"
+										: stage === "initmap" || stage === "checking"
 											? "CARGANDO"
 											: undefined
 							}
@@ -266,6 +320,7 @@ export default function Home() {
 							onClick={() => {
 								const on = sound.toggle();
 								setMuted(!on);
+								setSoundPreference(on);
 							}}
 							className="bit-border absolute -right-12 top-1/2 flex h-9 w-10 -translate-y-1/2 cursor-pointer items-center justify-center font-pixel-body text-[10px] text-[#f5b700] hover:opacity-80"
 							style={
@@ -281,10 +336,9 @@ export default function Home() {
 					</div>
 				</div>
 
-				{/* title plaque straddling the console's top edge (generated asset) */}
 				<h1 className="absolute left-1/2 top-1 z-30 -translate-x-1/2">
 					<span className="sr-only">Crafter Tracker</span>
-					{/* biome-ignore lint/performance/noImgElement: local pixel plaque, swap letter a-d to pick a candidate */}
+					{/* biome-ignore lint/performance/noImgElement: local pixel plaque */}
 					<img
 						src="/sprites/title-plaque-a.png"
 						alt=""
@@ -295,111 +349,26 @@ export default function Home() {
 					/>
 				</h1>
 
-				{/* hanging CTAs (outside the clipped band) */}
 				<a
 					href="https://crafter.run/team"
 					target="_blank"
 					rel="noopener noreferrer"
-					className="bit-border absolute bottom-1 left-14 z-30 hidden px-3 py-1.5 font-pixel-body text-[8px] text-black hover:opacity-85 sm:block"
+					className="bit-border absolute bottom-1 left-2 z-30 px-2 py-1 font-pixel-body text-[7px] text-black hover:opacity-85 sm:left-14 sm:px-3 sm:py-1.5 sm:text-[8px]"
 					style={bitDark}
 				>
 					EL EQUIPO
 				</a>
-				<a
-					href={reportUrl}
-					target="_blank"
-					rel="noopener noreferrer"
-					className="bit-border absolute bottom-1 right-14 z-30 hidden px-3 py-1.5 font-pixel-body text-[8px] text-black hover:opacity-85 sm:block"
+				<button
+					type="button"
+					onClick={() => openPanel("report")}
+					className="bit-border absolute bottom-1 right-2 z-30 cursor-pointer px-2 py-1 font-pixel-body text-[7px] text-black hover:opacity-85 sm:right-14 sm:px-3 sm:py-1.5 sm:text-[8px]"
 					style={bitDark}
 				>
 					{mainData.init.report.ctaText}
-				</a>
+				</button>
 			</div>
 
 			<SiteFooter lumaPins={lumaPins} />
 		</main>
-	);
-}
-
-function FilterTab({
-	type,
-	off,
-	inactive = false,
-	onToggle,
-}: {
-	type: PinType;
-	off: boolean;
-	inactive?: boolean;
-	onToggle: () => void;
-}) {
-	const [spriteMissing, setSpriteMissing] = useState(false);
-	const [tabSpriteMissing, setTabSpriteMissing] = useState(false);
-	const tabImgRef = useRef<HTMLImageElement | null>(null);
-
-	// onError fires before hydration on static pages; re-check on mount.
-	useEffect(() => {
-		const img = tabImgRef.current;
-		if (img?.complete && img.naturalWidth === 0) setTabSpriteMissing(true);
-	}, []);
-
-	if (!tabSpriteMissing) {
-		return (
-			<button
-				type="button"
-				aria-label={`Mostrar/Ocultar ${type}`}
-				aria-pressed={!off}
-				onClick={onToggle}
-				disabled={inactive}
-				className="cursor-pointer transition-transform duration-150 hover:scale-[1.03] disabled:cursor-default disabled:hover:scale-100"
-			>
-				{/* biome-ignore lint/performance/noImgElement: local sprite tab, swaps like the original filter_white/green */}
-				<img
-					ref={tabImgRef}
-					src={
-						off || inactive
-							? "/sprites/filter-off.png"
-							: `/sprites/filter-${type}.png`
-					}
-					alt=""
-					width={50}
-					height={40}
-					className="pixelated"
-					onError={() => setTabSpriteMissing(true)}
-				/>
-			</button>
-		);
-	}
-
-	return (
-		<button
-			type="button"
-			aria-label={`Mostrar/Ocultar ${type}`}
-			aria-pressed={!off}
-			onClick={onToggle}
-			className={`pin-tab ${off ? "is-off" : ""}`}
-			style={
-				{
-					"--tab-fill": off ? "#f5e9c8" : PIN_COLORS[type],
-				} as React.CSSProperties
-			}
-		>
-			<span className="pin-tab__glyph">
-				{spriteMissing ? (
-					<span className="font-pixel-body text-[11px]">
-						{PIN_GLYPHS[type]}
-					</span>
-				) : (
-					// biome-ignore lint/performance/noImgElement: tiny local sprite
-					<img
-						src={`/sprites/pin-${type}.png`}
-						alt=""
-						width={22}
-						height={22}
-						className="pixelated"
-						onError={() => setSpriteMissing(true)}
-					/>
-				)}
-			</span>
-		</button>
 	);
 }
