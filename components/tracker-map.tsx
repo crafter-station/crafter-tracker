@@ -199,14 +199,19 @@ const DARK_STYLE =
 export function TrackerMap({
 	extraPins = [],
 	hiddenTypes = [],
+	focusPinId = null,
+	onPinFocus,
 }: {
 	extraPins?: Pin[];
 	hiddenTypes?: PinType[];
+	focusPinId?: string | null;
+	onPinFocus?: (id: string | null) => void;
 }) {
 	const mapRef = useRef<MapRef | null>(null);
 	const [selected, setSelected] = useState<Pin | null>(null);
 	const [webglOk, setWebglOk] = useState<boolean | null>(null);
 	const swayRef = useRef(1);
+	const deepLinkedRef = useRef<string | null>(null);
 
 	useEffect(() => {
 		const forced = new URLSearchParams(window.location.search).has("nowebgl");
@@ -218,37 +223,48 @@ export function TrackerMap({
 	);
 	const visiblePins = allPins.filter((p) => !hiddenTypes.includes(p.pinType));
 
-	const flyToPin = useCallback((pin: Pin) => {
-		const map = mapRef.current;
-		if (!map || pin.lat == null || pin.lng == null) {
+	const flyToPin = useCallback(
+		(pin: Pin, opts?: { silent?: boolean }) => {
+			const map = mapRef.current;
+			if (!map || pin.lat == null || pin.lng == null) {
+				setSelected(pin);
+				onPinFocus?.(pin.id);
+				deepLinkedRef.current = pin.id;
+				return;
+			}
+			swayRef.current = -swayRef.current;
+			map.flyTo({
+				center: [pin.lng, pin.lat],
+				zoom: 10.8,
+				offset: [swayRef.current * 90, 50],
+				speed: 1.7,
+				curve: 1.8,
+				essential: true,
+			});
 			setSelected(pin);
-			return;
-		}
-		// Dive to the epicenter at a FIXED zoom (deep but not extreme), so
-		// every click lands at the same level instead of compounding. The
-		// alternating lateral offset keeps the camera moving even when
-		// re-clicking pins that share the same spot.
-		swayRef.current = -swayRef.current;
-		map.flyTo({
-			center: [pin.lng, pin.lat],
-			zoom: 10.8,
-			offset: [swayRef.current * 90, 50],
-			speed: 1.7,
-			curve: 1.8,
-			essential: true,
-		});
-		setSelected(pin);
-		sound.play("pin-click", 0.5);
-		const cat =
-			pin.pinType === "shipped"
-				? "shipped"
-				: pin.pinType === "cooking"
-					? "cooking"
-					: pin.pinType === "event" || pin.pinType === "hack0"
-						? "event"
-						: "general";
-		sound.say(cat);
-	}, []);
+			onPinFocus?.(pin.id);
+			deepLinkedRef.current = pin.id;
+			if (!opts?.silent) {
+				sound.play("pin-click", 0.5);
+				const cat =
+					pin.pinType === "shipped"
+						? "shipped"
+						: pin.pinType === "cooking"
+							? "cooking"
+							: pin.pinType === "event" || pin.pinType === "hack0"
+								? "event"
+								: "general";
+				sound.say(cat);
+			}
+		},
+		[onPinFocus],
+	);
+
+	useEffect(() => {
+		if (!focusPinId || deepLinkedRef.current === focusPinId) return;
+		const pin = allPins.find((p) => p.id === focusPinId);
+		if (pin) flyToPin(pin, { silent: true });
+	}, [focusPinId, allPins, flyToPin]);
 
 	useEffect(() => {
 		const onFly = (e: Event) => {
@@ -258,6 +274,12 @@ export function TrackerMap({
 		document.addEventListener("app:fly-to-pin", onFly);
 		return () => document.removeEventListener("app:fly-to-pin", onFly);
 	}, [flyToPin]);
+
+	const closePin = useCallback(() => {
+		setSelected(null);
+		deepLinkedRef.current = null;
+		onPinFocus?.(null);
+	}, [onPinFocus]);
 
 	if (webglOk === false) return <MapFallback />;
 	if (webglOk === null) return <div className="h-full w-full bg-[#0a0a0a]" />;
@@ -293,7 +315,7 @@ export function TrackerMap({
 
 			{selected && (
 				<div className="card-pop absolute left-1/2 top-4 z-20 -translate-x-1/2">
-					<PinCard pin={selected} onClose={() => setSelected(null)} />
+					<PinCard pin={selected} onClose={closePin} />
 				</div>
 			)}
 		</div>
