@@ -10,6 +10,7 @@ import { MissionLog } from "@/components/mission-log";
 import { NavDrawer } from "@/components/nav-drawer";
 import { ReportShipPanel } from "@/components/report-ship-panel";
 import { SiteFooter } from "@/components/site-footer";
+import { StatsPanel } from "@/components/stats-panel";
 import { Ticker } from "@/components/ticker";
 import { TutorialOverlay } from "@/components/tutorial-overlay";
 import { WelcomeScreen } from "@/components/welcome-screen";
@@ -29,7 +30,7 @@ const TrackerMap = dynamic(
 	{ ssr: false },
 );
 
-type Panel = "none" | "activity" | "mission" | "help" | "report";
+type Panel = "none" | "activity" | "stats" | "mission" | "help" | "report";
 type Stage = "checking" | "welcome" | "tutorial" | "initmap" | "live";
 
 const FILTERABLE: PinType[] = ["shipped", "cooking", "hack0"];
@@ -110,6 +111,7 @@ export default function Home() {
 
 	const navItems = [
 		{ label: "REGISTRO DE ACTIVIDAD", action: () => openPanel("activity") },
+		{ label: "CENSO DEL TRACKER", action: () => openPanel("stats") },
 		{ label: "BITÁCORA DE MISIÓN", action: () => openPanel("mission") },
 		{
 			label: mainData.init.report.ctaText,
@@ -209,6 +211,12 @@ export default function Home() {
 
 							{panel === "activity" && (
 								<ActivityLog
+									extraPins={lumaPins}
+									onClose={() => setPanel("none")}
+								/>
+							)}
+							{panel === "stats" && (
+								<StatsPanel
 									extraPins={lumaPins}
 									onClose={() => setPanel("none")}
 								/>

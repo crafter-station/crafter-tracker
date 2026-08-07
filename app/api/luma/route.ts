@@ -1,34 +1,35 @@
 import { NextResponse } from "next/server";
+import { ONLINE_CODE } from "@/lib/stats";
 import type { Pin } from "@/lib/tracker";
 
 export const revalidate = 3600;
 
 const LUMA_ENDPOINT = "https://public-api.lu.ma/public/v1/calendar/list-events";
 
-/** Fallback coords for events whose venue is TBA but whose city is in the name/address. */
-const CITY_COORDS: Record<string, [number, number]> = {
-	lima: [-12.0464, -77.0428],
-	arequipa: [-16.409, -71.537],
-	cusco: [-13.5319, -71.9675],
-	trujillo: [-8.1092, -79.0215],
-	bogotá: [4.711, -74.0721],
-	bogota: [4.711, -74.0721],
-	medellín: [6.2442, -75.5812],
-	medellin: [6.2442, -75.5812],
-	barranquilla: [10.9639, -74.7964],
-	"el salvador": [13.6929, -89.2182],
-	"san salvador": [13.6929, -89.2182],
-	"ciudad de guatemala": [14.6349, -90.5069],
-	guatemala: [14.6349, -90.5069],
-	"ciudad de méxico": [19.4326, -99.1332],
-	cdmx: [19.4326, -99.1332],
-	"buenos aires": [-34.6037, -58.3816],
-	santiago: [-33.4489, -70.6693],
-	quito: [-0.1807, -78.4678],
-	montevideo: [-34.9011, -56.1645],
-	"são paulo": [-23.5505, -46.6333],
-	"sao paulo": [-23.5505, -46.6333],
-	madrid: [40.4168, -3.7038],
+/** Fallback coords/country for events whose venue is TBA but whose city is in the name/address. */
+const CITIES: Record<string, { coords: [number, number]; country: string }> = {
+	lima: { coords: [-12.0464, -77.0428], country: "PE" },
+	arequipa: { coords: [-16.409, -71.537], country: "PE" },
+	cusco: { coords: [-13.5319, -71.9675], country: "PE" },
+	trujillo: { coords: [-8.1092, -79.0215], country: "PE" },
+	bogotá: { coords: [4.711, -74.0721], country: "CO" },
+	bogota: { coords: [4.711, -74.0721], country: "CO" },
+	medellín: { coords: [6.2442, -75.5812], country: "CO" },
+	medellin: { coords: [6.2442, -75.5812], country: "CO" },
+	barranquilla: { coords: [10.9639, -74.7964], country: "CO" },
+	"el salvador": { coords: [13.6929, -89.2182], country: "SV" },
+	"san salvador": { coords: [13.6929, -89.2182], country: "SV" },
+	"ciudad de guatemala": { coords: [14.6349, -90.5069], country: "GT" },
+	guatemala: { coords: [14.6349, -90.5069], country: "GT" },
+	"ciudad de méxico": { coords: [19.4326, -99.1332], country: "MX" },
+	cdmx: { coords: [19.4326, -99.1332], country: "MX" },
+	"buenos aires": { coords: [-34.6037, -58.3816], country: "AR" },
+	santiago: { coords: [-33.4489, -70.6693], country: "CL" },
+	quito: { coords: [-0.1807, -78.4678], country: "EC" },
+	montevideo: { coords: [-34.9011, -56.1645], country: "UY" },
+	"são paulo": { coords: [-23.5505, -46.6333], country: "BR" },
+	"sao paulo": { coords: [-23.5505, -46.6333], country: "BR" },
+	madrid: { coords: [40.4168, -3.7038], country: "ES" },
 };
 
 type LumaEvent = {
@@ -39,22 +40,30 @@ type LumaEvent = {
 	location_type: string;
 	cover_url?: string;
 	coordinate?: { latitude: number; longitude: number } | null;
-	geo_address_json?: { city?: string; full_address?: string } | null;
+	geo_address_json?: {
+		city?: string;
+		full_address?: string;
+		country_code?: string;
+	} | null;
 };
 
-function resolveCoords(e: LumaEvent): [number, number] | null {
-	if (e.coordinate?.latitude != null && e.coordinate?.longitude != null) {
-		return [e.coordinate.latitude, e.coordinate.longitude];
-	}
+function matchCity(e: LumaEvent) {
 	const haystacks = [
 		e.name.toLowerCase(),
 		e.geo_address_json?.city?.toLowerCase() ?? "",
 		e.geo_address_json?.full_address?.toLowerCase() ?? "",
 	].join(" | ");
-	for (const [city, coords] of Object.entries(CITY_COORDS)) {
-		if (haystacks.includes(city)) return coords;
+	for (const [city, info] of Object.entries(CITIES)) {
+		if (haystacks.includes(city)) return info;
 	}
 	return null;
+}
+
+function resolveCoords(e: LumaEvent): [number, number] | null {
+	if (e.coordinate?.latitude != null && e.coordinate?.longitude != null) {
+		return [e.coordinate.latitude, e.coordinate.longitude];
+	}
+	return matchCity(e)?.coords ?? null;
 }
 
 function formatDate(iso: string): string {
@@ -113,6 +122,11 @@ export async function GET() {
 			displayLocation: isOnline
 				? "Online"
 				: (e.geo_address_json?.city ?? undefined),
+			country: isOnline
+				? ONLINE_CODE
+				: (e.geo_address_json?.country_code?.toUpperCase() ??
+					matchCity(e)?.country ??
+					undefined),
 			description: `${formatDate(e.start_at)} · Calendario Hack0 Community (17k+ subs)`,
 			url: e.url,
 			cardThumbImg: e.cover_url,
