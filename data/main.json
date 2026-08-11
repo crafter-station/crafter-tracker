@@ -357,7 +357,8 @@
 			"lng": -76.992,
 			"title": "PinturilloElements — realtime tech-logo guessing game",
 			"displayLocation": "Santiago de Surco, Lima, Perú",
-			"description": "Prototipo de hackathon para adivinar logos tech dibujados en vivo por personas y agentes de IA, construido para The Realtime Hackathon by Portal.",
+			"country": "PE",
+			"description": "Prototipo de hackathon para adivinar logos tech dibujados en vivo, construido para The Realtime Hackathon by Portal.",
 			"shipUrl": "https://github.com/asther0/PinturilloElements",
 			"repoUrl": "https://github.com/asther0/PinturilloElements",
 			"createdAt": "2026-08-08T12:00:00.000Z"
