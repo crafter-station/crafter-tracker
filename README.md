@@ -46,6 +46,8 @@ cambia de color cuando entregas.
   dive cinematográfico al hacer click en un pin y desvío lateral alternante de cámara.
 - **Eventos en vivo** desde la API de Luma, con geocode por ciudad cuando el venue es TBA
   y revalidación cada hora. Si no está en el calendario, no está en el mapa.
+- **Censo del tracker** con totales por tipo y país que respetan los filtros visibles
+  del mapa.
 - **Bitácora de misión**: los seis villanos del shipping (Scope Creep, El Deadline,
   Tutorial Hell, El Vibecoder, Merge Conflict y el Desconocido), cada uno con su retrato
   pixel y su línea de voz.
@@ -80,7 +82,8 @@ bun run build                # build de producción
 ```
 
 Los pins viven en [`data/main.json`](data/main.json) (schema en
-[`lib/tracker.ts`](lib/tracker.ts)) — agregar tu ship es un PR a ese archivo.
+[`lib/tracker.ts`](lib/tracker.ts)). Incluye el código ISO `country` para evitar
+ambigüedades de ubicación. Agregar tu ship es un PR a ese archivo.
 
 ## Pixel art como pipeline
 

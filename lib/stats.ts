@@ -86,13 +86,21 @@ const REMOTE_WORDS = ["online", "remoto", "remote", "virtual"];
 // Combining diacritics, spelled out so the source stays ASCII-readable.
 const DIACRITICS = /[\u0300-\u036f]/g;
 
-function normalize(text: string): string {
+export function normalizeLocation(text: string): string {
 	return text.normalize("NFD").replace(DIACRITICS, "").toLowerCase();
+}
+
+export function wholePlaceMatcher(place: string): RegExp {
+	const escaped = normalizeLocation(place).replace(
+		/[.*+?^${}()|[\]\\]/g,
+		"\\$&",
+	);
+	return new RegExp(`(?:^|[^a-z0-9])${escaped}(?=$|[^a-z0-9])`);
 }
 
 /** Whole-word matchers, built once: "Colima" must not count as "Lima". */
 const PLACE_MATCHERS = Object.entries(PLACE_COUNTRY).map(
-	([place, code]) => [new RegExp(`\\b${place}\\b`), code] as const,
+	([place, code]) => [wholePlaceMatcher(place), code] as const,
 );
 
 /**
@@ -104,7 +112,7 @@ export function resolvePinCountry(pin: Pin): string {
 	if (pin.country) return pin.country.toUpperCase();
 	if (!pin.displayLocation) return UNKNOWN_CODE;
 
-	const haystack = normalize(pin.displayLocation);
+	const haystack = normalizeLocation(pin.displayLocation);
 	let bestAt = Number.POSITIVE_INFINITY;
 	let best = UNKNOWN_CODE;
 	for (const [matcher, code] of PLACE_MATCHERS) {
@@ -177,6 +185,10 @@ export function computeStats(pins: Pin[]): TrackerStats {
 		byType,
 		countries: rankCountries(countries),
 	};
+}
+
+export function visiblePins(pins: Pin[], hiddenTypes: PinType[]): Pin[] {
+	return pins.filter((pin) => !hiddenTypes.includes(pin.pinType));
 }
 
 export type SortBy = "count" | "name";

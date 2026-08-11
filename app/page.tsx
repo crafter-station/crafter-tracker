@@ -218,6 +218,7 @@ export default function Home() {
 							{panel === "stats" && (
 								<StatsPanel
 									extraPins={lumaPins}
+									hiddenTypes={hiddenTypes}
 									onClose={() => setPanel("none")}
 								/>
 							)}

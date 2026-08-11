@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { ONLINE_CODE } from "@/lib/stats";
+import { normalizeLocation, ONLINE_CODE, wholePlaceMatcher } from "@/lib/stats";
 import type { Pin } from "@/lib/tracker";
 
 export const revalidate = 3600;
@@ -32,7 +32,7 @@ const CITIES: Record<string, { coords: [number, number]; country: string }> = {
 	madrid: { coords: [40.4168, -3.7038], country: "ES" },
 };
 
-type LumaEvent = {
+export type LumaEvent = {
 	id: string;
 	name: string;
 	start_at: string;
@@ -47,14 +47,19 @@ type LumaEvent = {
 	} | null;
 };
 
-function matchCity(e: LumaEvent) {
+const CITY_MATCHERS = Object.entries(CITIES).map(
+	([city, info]) => [wholePlaceMatcher(city), info] as const,
+);
+
+export function matchCity(e: LumaEvent) {
 	const haystacks = [
-		e.name.toLowerCase(),
-		e.geo_address_json?.city?.toLowerCase() ?? "",
-		e.geo_address_json?.full_address?.toLowerCase() ?? "",
+		e.name,
+		e.geo_address_json?.city ?? "",
+		e.geo_address_json?.full_address ?? "",
 	].join(" | ");
-	for (const [city, info] of Object.entries(CITIES)) {
-		if (haystacks.includes(city)) return info;
+	const location = normalizeLocation(haystacks);
+	for (const [matcher, info] of CITY_MATCHERS) {
+		if (matcher.test(location)) return info;
 	}
 	return null;
 }

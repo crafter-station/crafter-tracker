@@ -1,7 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { computeStats, rankCountries, type SortBy } from "@/lib/stats";
+import {
+	computeStats,
+	rankCountries,
+	type SortBy,
+	visiblePins,
+} from "@/lib/stats";
 import { getPins, PIN_COLORS, type Pin, type PinType } from "@/lib/tracker";
 
 const ORDER: PinType[] = [
@@ -30,14 +35,18 @@ const SORTS: { id: SortBy; label: string }[] = [
 export function StatsPanel({
 	onClose,
 	extraPins = [],
+	hiddenTypes = [],
 }: {
 	onClose: () => void;
 	extraPins?: Pin[];
+	hiddenTypes?: PinType[];
 }) {
 	const [filter, setFilter] = useState<PinType | null>(null);
 	const [sortBy, setSortBy] = useState<SortBy>("count");
 
-	const stats = computeStats([...getPins(), ...extraPins]);
+	const stats = computeStats(
+		visiblePins([...getPins(), ...extraPins], hiddenTypes),
+	);
 	const rows = rankCountries(stats.countries, { type: filter, sortBy });
 	const headline = filter ? stats.byType[filter] : stats.total;
 
