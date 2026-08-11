@@ -13,27 +13,31 @@ const WAVE = "/sprites/crafternaut-wave.png";
  */
 export function Crafternaut() {
 	const [frame, setFrame] = useState(0);
-	const [hovered, setHovered] = useState(false);
 
 	useEffect(() => {
-		if (hovered) return;
 		const id = setInterval(() => setFrame((f) => (f + 1) % FRAMES.length), 500);
 		return () => clearInterval(id);
-	}, [hovered]);
+	}, []);
 
 	return (
-		<div
-			className="pointer-events-auto absolute bottom-[52px] left-7 z-30 hidden sm:block"
-			onMouseEnter={() => setHovered(true)}
-			onMouseLeave={() => setHovered(false)}
-		>
-			{/* biome-ignore lint/performance/noImgElement: local sprite animation via src swap */}
+		<div className="group pointer-events-auto absolute bottom-[52px] left-7 z-30 hidden sm:block">
+			{/* biome-ignore lint/performance/noImgElement: local two-frame sprite animation */}
 			<img
-				src={hovered ? WAVE : FRAMES[frame]}
+				src={FRAMES[frame]}
 				alt="Crafternauta"
 				width={64}
 				height={96}
-				className="pixelated"
+				className="pixelated group-hover:opacity-0"
+				draggable={false}
+			/>
+			{/* biome-ignore lint/performance/noImgElement: local hover sprite */}
+			<img
+				src={WAVE}
+				alt=""
+				aria-hidden="true"
+				width={64}
+				height={96}
+				className="pixelated absolute inset-0 opacity-0 group-hover:opacity-100"
 				draggable={false}
 			/>
 		</div>
