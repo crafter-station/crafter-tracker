@@ -15,6 +15,8 @@ export type Pin = {
 	lng?: number;
 	title: string;
 	displayLocation?: string;
+	/** ISO 3166-1 alpha-2, or ONLINE_CODE for remote-only entries. */
+	country?: string;
 	description?: string;
 	url?: string;
 	shipUrl?: string;
