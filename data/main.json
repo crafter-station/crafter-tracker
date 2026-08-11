@@ -349,6 +349,19 @@
 			"url": "https://crafter.run/en/team/gabriel",
 			"createdAt": "2026-08-02T00:00:00.000Z",
 			"avatar": "/team/gabriel.png"
+		},
+		{
+			"id": "pinturillo-elements-2026",
+			"pinType": "shipped",
+			"lat": -12.155,
+			"lng": -76.992,
+			"title": "PinturilloElements — realtime tech-logo guessing game",
+			"displayLocation": "Santiago de Surco, Lima, Perú",
+			"country": "PE",
+			"description": "Prototipo de hackathon para adivinar logos tech dibujados en vivo, construido para The Realtime Hackathon by Portal.",
+			"shipUrl": "https://github.com/asther0/PinturilloElements",
+			"repoUrl": "https://github.com/asther0/PinturilloElements",
+			"createdAt": "2026-08-08T12:00:00.000Z"
 		}
 	]
 }
