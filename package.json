@@ -6,7 +6,8 @@
 		"dev": "portless crafter-tracker next dev",
 		"build": "next build",
 		"start": "next start",
-		"dev:raw": "next dev"
+		"dev:raw": "next dev",
+		"test": "bun test"
 	},
 	"dependencies": {
 		"@base-ui/react": "^1.6.0",
